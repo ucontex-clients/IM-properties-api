@@ -2,18 +2,15 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userSchema')
-const Joi = require('joi')
+const validateUserLogin = require('../../utils/validateUserLogin')
 const tokenSecret = process.env.TOKEN_SECRET
 
-const schema = new Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required()
-}) 
+
 
 const loginController = async(req, res) => {
    try {
     const {body} = req
-    const {error, value} = schema.validate(body)
+    const {error, value} = validateUserLogin(body)
     if(error){
          return res.status(400).json({error:{message: error.details[0].message}})
     }
