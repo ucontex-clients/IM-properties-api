@@ -7,11 +7,11 @@ const verifyToken = async (req, res, next) => {
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
         try{
             token = req.headers.authorization.split(' ')[1]
-            jwt.verify(token, tokenSecret,(err,decoded)=>{
+            jwt.verify(token, tokenSecret, async(err, user)=>{
                 if(err){
                     res.status(401).json({error:{message:'Access denied, Invalid token'}})
                 }else{
-                    req.user = await User.find(decoded.id)
+                    req.user = await User.findOne({_id:user_id})
                     next()
                 }
             })
@@ -24,22 +24,5 @@ const verifyToken = async (req, res, next) => {
     }
 }
 
-const verifyUserAndAdmin = (req, res, next) => {
-    verifyToken(req, res, () =>{
-        if(req.user.id === req.params.id || ['admin'].includes(req.user.role)){
-            next()
-        }else{
-            res.status(400).json({error:{message:'Access denied, Not authorized.'}})
-        }
-    })
-}
 
-const verifyAdmin = (req, res, next) =>{
-    verifyToken(req, res, () =>{
-        if(['admin'].includes(req.user.role)){
-            next()
-        }
-    })
-    
-}
-module.exports = {verifyToken, verifyUserAndAdmin, verifyAdmin}
+module.exports = verifyToken

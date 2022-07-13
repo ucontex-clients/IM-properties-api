@@ -17,8 +17,7 @@ const userSchema = new mongoose.Schema({
         select:false
     },
     referer:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        type:String,
     },
 },{
     timestamps:true
