@@ -1,11 +1,7 @@
-// const validateUserSchema = require('../utils/validateUserSchema')
 const User = require('../../models/userSchema')
-// const Joi = require('joi')
-const bcrypt = require('bcryptjs')
 const userSchemaValidation = require('../../utils/validateUserSchema')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const User = require('../../models/userSchema')
 const validateUserLogin = require('../../utils/validateUserLogin')
 const tokenSecret = process.env.TOKEN_SECRET
 
@@ -36,16 +32,20 @@ try {
 const loginController = async(req, res) => {
     try {
      const {body} = req
+     console.log(body)
      const {error, value} = validateUserLogin(body)
+     console.log(value)
      if(error){
-          return res.status(400).json({error:{message: error.details[0].message}})
+         res.status(400).json({error:{message: error.details[0].message}})
      }
      const user = await User.findOne({email:body.email}).select('+password')
-     const isPassword = await bcrypt.compare(user.password,body.password)
-     
-     const token = jwt.sign({_id:user._id},tokenSecret, {expiresIn:'30d'})
- 
+     const isPassword = await bcrypt.compare(body.password,user.password)
+     if(user && isPassword   ){
+        const token = jwt.sign({_id:user._id, role:user.role},tokenSecret, {expiresIn:'30d'})
         return res.status(200).json({message:"Login Successful",id:user._id, token})
+     }else{
+         res.status(400).json({message:"invalid username and password"})    
+     }   
     } catch (error) {
      res.status(500).json({error:{message: error}})
      console.log(error)
