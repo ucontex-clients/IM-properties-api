@@ -1,7 +1,7 @@
 // const validateUserLogin = require('../utils/validateUserLogin')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const User = require('../models/userSchema')
+const User = require('../../models/userSchema')
 const validateUserLogin = require('../../utils/validateUserLogin')
 const tokenSecret = process.env.TOKEN_SECRET
 
