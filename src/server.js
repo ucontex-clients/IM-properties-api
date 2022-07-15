@@ -23,9 +23,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 //routes
-app.use('/api/auth', require('./routes/authRoutes/register'))
-app.use('/api/auth', require('./routes/authRoutes/login'))
-
+app.use('/api/auth', require('./routes/authRoutes/authUserRoutes'))
 app.use('/api/user', require('./routes/userRoutes/userRoute'))
 
 
