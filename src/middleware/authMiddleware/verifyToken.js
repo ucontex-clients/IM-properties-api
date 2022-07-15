@@ -11,7 +11,7 @@ const verifyToken = async (req, res, next) => {
                 if(err){
                     res.status(401).json({error:{message:'Access denied, Invalid token'}})
                 }else{
-                    req.user = await User.findOne({_id:user_id})
+                    req.user = await User.findOne({_id:user._id})
                     next()
                 }
             })

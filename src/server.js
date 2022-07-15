@@ -23,13 +23,9 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 //routes
-app.use('/api/auth', require('./routes/authRoutes/register'))
-app.use('/api/auth', require('./routes/authRoutes/login'))
+app.use('/api/auth', require('./routes/authRoutes/authUserRoutes'))
+app.use('/api/user', require('./routes/userRoutes/userRoute'))
 
-app.use('/api/user', require('./routes/userRoutes/getAllUser'))
-app.use('/api/user', require('./routes/userRoutes/getSingleUser'))
-app.use('/api/user', require('./routes/userRoutes/updateUser'))
-app.use('/api/user', require('./routes/userRoutes/deleteUser'))
 
 app.use("*", (req, res) => {
     return res.status(404).json({ error: { messgage: "Route Not Found" } });
