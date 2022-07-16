@@ -1,5 +1,10 @@
 const router = require('express').Router()
-const {getAllUserController,getSingleUserController,updateUserController,deleteUserController} = require('../../controllers/userController/UserController')
+const getAllUserController = require('../../controllers/userController/getAllUserController')
+const getSingleUserController = require('../../controllers/userController/getSingleUserController')
+const updateUserController = require('../../controllers/userController/updateUserController')
+const deleteUserController = require('../../controllers/userController/deleteUserController')
+
+
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const verifyAdminToken = require('../../middleware/authMiddleware/verifyAdmin')
 const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyUserAndAdmin')
