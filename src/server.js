@@ -26,7 +26,6 @@ app.use(express.json())
 app.use('/api/auth', require('./routes/authRoutes/authUserRoutes'))
 app.use('/api/user', require('./routes/userRoutes/userRoute'))
 
-
 app.use("*", (req, res) => {
     return res.status(404).json({ error: { messgage: "Route Not Found" } });
   });

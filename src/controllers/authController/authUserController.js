@@ -1,4 +1,4 @@
-const User = require('../../models/userSchema')
+const User = require('../../models/UserSchema')
 const userSchemaValidation = require('../../utils/validateUserSchema')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -32,9 +32,9 @@ try {
 const loginController = async(req, res) => {
     try {
      const {body} = req
-     console.log(body)
+    //  console.log(body)
      const {error, value} = validateUserLogin(body)
-     console.log(value)
+    //  console.log(value)
      if(error){
          res.status(400).json({error:{message: error.details[0].message}})
      }
