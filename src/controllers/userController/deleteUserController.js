@@ -1,9 +1,9 @@
 const User = require('../../models/UserSchema')
 const deleteUserController = async(req,res) => { 
     try {
-            const userFound = await User.findById(req.params.id)
+            const userFound = await User.findById(req.user._id)
              if(userFound){
-             await User.findByIdAndDelete(req.params.id)
+             await User.findByIdAndDelete(req.user._id)
              return res.status(200).json(`user deleted`)
       }else{
         res.status(401).json('user not found')

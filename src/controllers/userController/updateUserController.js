@@ -1,4 +1,4 @@
-const Update = require('../../models/UpdateSchema')
+const User = require('../../models/UserSchema')
 const multer = require('multer')
 
 const fileStorageEngine = multer.diskStorage({
@@ -13,7 +13,6 @@ const upload = multer({storage:fileStorageEngine})
 
 const uploadFile =  (req, res) =>{
     upload.single('image')
-    // req.body.image = req.file
     console.log(req.file)
     res.status(200).json({mesage: 'File Upload Succesfull'})
 }
@@ -22,13 +21,13 @@ const updateUserController= async(req,res) => {
         uploadFile(req, res)
         let {body, file} = req
         body.image = file.path
-        const update = await Update.findByIdAndUpdate(req.params.id,
+        const update = await User.findByIdAndUpdate(req.user._id,
                   {
                     $set: body
                 },
                 { new:true})
         
-          return res.status(200).json({message:'Update Successful',updated: body})
+          return res.status(200).json({message:'Update Successful',updated: body, update})
     
     } catch (error) {
         console.log(error.message)
