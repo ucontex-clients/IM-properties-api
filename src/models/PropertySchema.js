@@ -46,8 +46,8 @@ const PropertySchema = new Schema({
     default: 0,
   },
   category: {
-    type: String,
-    enum: ["Two plots", "Five plots", "Ten plots", "Above Ten plots"],
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
   },
   description: {
     type: String,

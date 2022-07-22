@@ -1,13 +1,13 @@
 const Property = require('../../models/PropertySchema')
 
-const deleteUserController = async(req,res) => { 
+const deletePropertyController = async(req,res) => { 
     try {
-            const userFound = await Property.findById(req.user._id)
-             if(userFound){
+            const propFound = await Property.findById(req.user._id)
+             if(propFound){
              await User.findByIdAndDelete(req.user._id)
-             return res.status(200).json(`user deleted`)
+             return res.status(200).json(`property deleted`)
       }else{
-        res.status(401).json('user not found')
+        res.status(401).json('property not found')
      }
     } catch (error) {
         console.log(error.message)
@@ -15,4 +15,4 @@ const deleteUserController = async(req,res) => {
     }
 }
 
-module.exports = deleteUserController 
+module.exports = deletePropertyController 

@@ -1,13 +1,13 @@
 
 const Property = require('../../models/PropertySchema')
 
-const getSingleUserController = async(req,res) => { 
+const getSinglePropertyController = async(req,res) => { 
     try {
         const property = await Property.findById(req.user._id)
         if(user){
             return res.status(200).json(property)
     }else{
-        return res.status(400).json('no user found')
+        return res.status(400).json('no property found')
     }
     } catch (error) {
         console.log(error.message)
@@ -17,4 +17,4 @@ const getSingleUserController = async(req,res) => {
 
 
 
-module.exports = getSingleUserController
+module.exports = getSinglePropertyController
