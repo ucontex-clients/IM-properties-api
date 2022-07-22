@@ -1,4 +1,4 @@
-const User = require('../../models/UserSchema')
+const Property = require('../../models/PropertySchema')
 const multer = require('multer')
 
 const fileStorageEngine = multer.diskStorage({
@@ -12,16 +12,16 @@ const fileStorageEngine = multer.diskStorage({
 const upload = multer({storage:fileStorageEngine})
 
 const uploadFile =  (req, res) =>{
-    upload.single('image')
+    upload.array('images',5)
     console.log(req.file)
-    res.status(200).json({mesage: 'File Upload Succesfull'})
+    res.status(200).json({mesage: 'Multiple Files Upload Succesfull'})
 }
-const updateUserController= async(req,res) => { 
+const updatePropertyController= async(req,res) => { 
     try {
         uploadFile(req, res)
         let {body, file} = req
         body.image = file.path
-        const update = await User.findByIdAndUpdate(req.user._id,
+        const update = await Property.findByIdAndUpdate(req.user._id,
                   {
                     $set: body
                 },
@@ -35,4 +35,4 @@ const updateUserController= async(req,res) => {
     }
 }
 
-module.exports = {updateUserController}
+module.exports = {updatePropertyController}

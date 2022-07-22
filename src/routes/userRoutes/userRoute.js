@@ -12,11 +12,11 @@ const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyU
 
 router.get('/all',verifyToken,verifyAdminToken, getAllUserController )
 
-router.get('/:id',verifyToken,verifyAdminAndUserToken, getSingleUserController )
+router.get('/single',verifyToken,verifyAdminAndUserToken, getSingleUserController )
 
-router.put('/:id',verifyToken,verifyAdminAndUserToken, updateUserController )
+router.put('/update',verifyToken,verifyAdminAndUserToken, updateUserController )
 
-router.delete('/:id',verifyToken,verifyAdminAndUserToken, deleteUserController )
+router.delete('/delete',verifyToken,verifyAdminAndUserToken, deleteUserController )
 
 // router.put('/upload', uploadFile)
 

@@ -4,7 +4,7 @@ const User = require('../../models/UserSchema')
 
 const getSingleUserController = async(req,res) => { 
     try {
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.user._id)
         if(user){
             return res.status(200).json(user)
     }else{
