@@ -3,12 +3,12 @@ const getAllUserController = require('../../controllers/userController/getAllUse
 const getSingleUserController = require('../../controllers/userController/getSingleUserController')
 const {updateUserController} = require('../../controllers/userController/updateUserController')
 const deleteUserController = require('../../controllers/userController/deleteUserController')
-
-
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const verifyAdminToken = require('../../middleware/authMiddleware/verifyAdmin')
 const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyUserAndAdmin')
+const addUserDetailsController = require('../../controllers/userController/addUserDetailsController')
 
+router.post('/add-details',verifyToken,verifyAdminToken,addUserDetailsController)
 
 router.get('/all',verifyToken,verifyAdminToken, getAllUserController )
 

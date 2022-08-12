@@ -1,26 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const LocationSchema = new Schema(
-  {
-    state: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    LGA: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const SizeSchema = new Schema(
+const layoutSchema = new Schema(
   {
     width: {
       type: Number,
@@ -30,6 +10,10 @@ const SizeSchema = new Schema(
       type: String,
       required: true,
     },
+    color:{
+      type:String,
+      required: true
+    }
   },
   {
     timestamps: true,
@@ -41,7 +25,7 @@ const PropertySchema = new Schema({
     type: String,
     required: true,
   },
-  price: {
+  pricePerSm: {
     type: Number,
     default: 0,
   },
@@ -72,11 +56,15 @@ const PropertySchema = new Schema({
     enum: ['Available','Not Available','Sold']
   },
   location: {
-    type: LocationSchema,
+    type: String,
   },
-  size: {
-    type: SizeSchema,
+  layouts: {
+    type: [layoutSchema],
   },
+  features:{
+    type:Array,
+    required: true
+  }
 });
 
 const populateUser = function (next) {

@@ -10,11 +10,11 @@ const fileStorageEngine = multer.diskStorage({
     }
 })
 const upload = multer({storage:fileStorageEngine})
-res.status(200).json({mesage: 'Multiple Files Upload Succesfull'})
-// const uploadFile =  (req, res) =>{
-//     upload.array('images',5)
-//     console.log(req.file)
-//     res.status(200).json({mesage: 'Multiple Files Upload Succesfull'})
-// }
 
-module.exports = upload
+const uploadFile =  (req, res) =>{
+    upload.array('images',5)
+    console.log(req.file)
+    res.status(200).json({mesage: 'Multiple Files Upload Succesfull'})
+}
+
+module.exports = uploadFile
