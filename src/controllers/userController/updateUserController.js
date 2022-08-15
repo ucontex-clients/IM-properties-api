@@ -16,6 +16,8 @@ const uploadFile =  (req, res) =>{
     console.log(req.file)
     res.status(200).json({mesage: 'File Upload Succesfull'})
 }
+
+
 const updateUserController= async(req,res) => { 
     try {
         uploadFile(req, res)

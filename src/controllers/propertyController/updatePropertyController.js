@@ -14,8 +14,9 @@ const upload = multer({storage:fileStorageEngine})
 const uploadFile =  (req, res) =>{
     upload.array('images',5)
     console.log(req.file)
-    res.status(200).json({mesage: 'Multiple Files Upload Succesfull'})
+    res.status(200).json({mesage: 'Image Upload Succesfull'})
 }
+//update property logic
 const updatePropertyController= async(req,res) => { 
     try {
         uploadFile(req, res)

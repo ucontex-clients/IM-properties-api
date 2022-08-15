@@ -7,7 +7,7 @@ const addPropertyController = require('../../controllers/propertyController/addP
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const verifyAdminToken = require('../../middleware/authMiddleware/verifyAdmin')
 const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyUserAndAdmin')
-const upload = require('../../services/multer')
+// const upload = require('../../services/multer')
 
 router.get('/all',verifyToken,verifyAdminToken, getAllPropertyController )
 
@@ -17,7 +17,7 @@ router.put('/update',verifyToken,verifyAdminAndUserToken, updatePropertyControll
 
 router.delete('/delete',verifyToken,verifyAdminAndUserToken, deletePropertyController )
 
-router.post('/add', upload.array('images',5), verifyToken,verifyAdminToken, addPropertyController)
+router.post('/add', verifyToken,verifyAdminToken, addPropertyController)
 
 
 module.exports = router

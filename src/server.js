@@ -22,12 +22,14 @@ const conn = mongoose.connect(dbURI, {
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
-//routes
-app.use('/api/auth', require('./routes/authRoutes/authUserRoutes'))
-app.use('/api/user', require('./routes/userRoutes/userRoute'))
-app.use('/api/property', require('./routes/propertyRoutes/propertyRoute'))
+// //routes
+// app.use('/api/auth', require('./routes/authRoutes/authUserRoutes'))
+// app.use('/api/user', require('./routes/userRoutes/userRoute'))
+// app.use('/api/property', require('./routes/propertyRoutes/propertyRoute'))
+// app.use('/api/blog', require('./routes/blogRoutes/blogRoute'))
+
 app.use("*", (req, res) => {
     return res.status(404).json({ error: { messgage: "Route Not Found" } });
   });
 
-app.listen(port,console.log(`server running on ${port}`))
+app.listen(port, console.log(`server running on ${port}`))
