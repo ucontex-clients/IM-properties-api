@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const SaleSchema = new Schema(
+const OrderSchema = new Schema(
   {
     orderId: {
       type: String,
@@ -74,6 +74,6 @@ const SaleSchema = new Schema(
 //   .pre("findOne", populateUser)
 //   .pre("findOneAndUpdate", populateUser);
 
-const Sale = mongoose.model("SaleSchema", SaleSchema);
+const Order = mongoose.model("Order", OrderSchema);
 
-module.exports = Sale;
+module.exports = Order;

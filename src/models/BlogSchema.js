@@ -8,7 +8,7 @@ const BlogSchema = new Schema({
   },
   addedBy:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: User
+    ref: 'User'
   },
   description: {
     type: String,

@@ -14,6 +14,11 @@ const TransactionSchema = new Schema(
     reference: {
       type: Object
     },
+    Order: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+      required: true
+    },
     transactionBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -37,7 +42,9 @@ TransactionSchema.pre("validate", function (next) {
 });
 
 const populateUser = function (next) {
-  this.populate("transactionBy", "_id lastName firstName phone email");
+  this.populate("transactionBy", "_id lastName firstName phone email"),
+  this.populate("Order");
+
 
   next();
 };
