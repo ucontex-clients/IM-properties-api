@@ -1,4 +1,4 @@
-const User = require("../../models/UserSchema");
+const User = require("../../models/User");
 const userSchemaValidation = require("../../utils/validateUserSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -17,11 +17,9 @@ const registerController = async (req, res) => {
     }
     const userExist = await User.findOne({ email: body.email });
     if (userExist) {
-      return res
-        .status(400)
-        .json({
-          error: { message: "Hey!! we already have you on board. Simply login" }
-        });
+      return res.status(400).json({
+        error: { message: "Hey!! we already have you on board. Simply login" }
+      });
     }
     const salt = await bcrypt.genSalt(10);
     body.password = await bcrypt.hash(body.password, salt);

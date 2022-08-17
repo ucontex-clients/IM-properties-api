@@ -4,24 +4,24 @@ const Schema = mongoose.Schema;
 const TransactionSchema = new Schema(
   {
     amount: {
-      type: Number,
+      type: Number
     },
     kind: {
       type: String,
       enum: ["deposit", "withdrawal", "payment"],
-      default: "deposit",
+      default: "deposit"
     },
     reference: {
-      type: Object,
+      type: Object
     },
     transactionBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-    },
+      required: true
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
@@ -29,7 +29,7 @@ TransactionSchema.pre("validate", function (next) {
   if (this.name) {
     this.catSlug = slugify(this.name, {
       lower: true,
-      strict: true,
+      strict: true
     });
   }
 
