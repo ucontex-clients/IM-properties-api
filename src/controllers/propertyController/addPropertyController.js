@@ -12,7 +12,7 @@ const addPropertyController = async (req, res) => {
       return res.json({ error: { message: error.details[0].message } });
     }
 
-    body.images = files.path;
+    // body.images = files.path;
     const { _id } = req.user;
     // console.log(_id);
     console.log(files)

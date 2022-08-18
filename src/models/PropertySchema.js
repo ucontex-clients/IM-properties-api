@@ -7,7 +7,7 @@ const layoutSchema = new Schema(
       required: true,
     },
     length: {
-      type: String,
+      type: Number,
       required: true,
     },
     color:{
@@ -39,7 +39,7 @@ const PropertySchema = new Schema({
   },
   image: {
     type: String,
-    required: true,
+    // required: true,
   },
   catSlug: {
     type: String,
@@ -53,7 +53,8 @@ const PropertySchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['Available','Not Available','Sold']
+    enum: ['Available','Not Available','Sold'],
+    default: 'Available'
   },
   location: {
     type: String,
@@ -68,7 +69,9 @@ const PropertySchema = new Schema({
 });
 
 const populateUser = function (next) {
-  this.populate("addedBy", "_id email firstname lastname username image");
+  this.populate("addedBy", "_id email firstname lastname username");
+  this.populate("category");
+
   next();
 };
 
