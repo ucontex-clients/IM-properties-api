@@ -3,7 +3,13 @@ const mongoose = require("mongoose");
 const express = require("express");
 const port = process.env.PORT;
 const dbURI = process.env.MONGO_URI;
+const cors = require('cors')
 const app = express();
+app.use(cors());
+
+app.use(express.urlencoded({ limit: "1000000mb", extended: true }));
+app.use(express.json({ limit: "1000000mb", extended: true }));
+
 
 //MongoDB connection
 const conn = mongoose

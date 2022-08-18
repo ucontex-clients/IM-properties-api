@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const SaleSchema = new Schema(
+const OrderSchema = new Schema(
   {
     orderId: {
       type: String,
     },
-    member: {
-      type: String,
+    orderBy: {
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     confirmedBy: {
@@ -19,22 +19,21 @@ const SaleSchema = new Schema(
       type: String,
       enum: [
         "delivered",
-        "out for delivery",
+        "out for sale",
         "failed delivery",
         "cancelled",
         "pending",
       ],
     },
-
     product: {
       type: Object,
     },
     paymentMethod: {
       type: String,
-      enum: ["wallet", "cash"],
+      enum: ["wallet", "bank"],
     },
 
-    totalQty: {
+    totalPlot: {
       type: Number,
     },
     amount: {
@@ -75,6 +74,6 @@ const SaleSchema = new Schema(
 //   .pre("findOne", populateUser)
 //   .pre("findOneAndUpdate", populateUser);
 
-const Sale = mongoose.model("Order", SaleSchema);
+const Order = mongoose.model("Order", OrderSchema);
 
-module.exports = Sale;
+module.exports = Order;

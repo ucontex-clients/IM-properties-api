@@ -1,29 +1,21 @@
 const Property = require("../../models/PropertySchema");
 const slugify = require("slugify");
 const validatePropertySchema = require("../../utils/validatePropertiesSchema");
+// const upload = require('../../middleware/multer.js')
+
 
 const addPropertyController = async (req, res) => {
   try {
-    //multer
-    const fileStorageEngine = multer.diskStorage({
-      destination: (req, file, cb) => {
-        cb(null, "./images");
-      },
-      filename: (req, file, cb) => {
-        cb(null, Date.now() + "..." + file.originalname);
-      }
-    });
-    const upload = multer({ storage: fileStorageEngine });
-
-    let { body, file } = req;
+    let { body, files } = req;
     const { error, value } = validatePropertySchema(body);
     if (error) {
       return res.json({ error: { message: error.details[0].message } });
     }
 
-    body.images = file.path;
+    body.images = files.path;
     const { _id } = req.user;
-    console.log(_id);
+    // console.log(_id);
+    console.log(files)
 
     body.nameSlug = slugify(body.name);
     body.catSlug = slugify(body.category);
@@ -37,4 +29,4 @@ const addPropertyController = async (req, res) => {
   }
 };
 
-module.exports = addPropertyController;
+module.exports = {addPropertyController}

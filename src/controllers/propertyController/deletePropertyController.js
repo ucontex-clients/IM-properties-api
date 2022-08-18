@@ -2,9 +2,9 @@ const Property = require("../../models/PropertySchema");
 
 const deletePropertyController = async (req, res) => {
   try {
-    const propFound = await Property.findById(req.user._id);
+    const propFound = await Property.findById(req.params.id);
     if (propFound) {
-      await User.findByIdAndDelete(req.user._id);
+      await Property.findByIdAndDelete(req.params.id);
       return res.status(200).json(`property deleted`);
     } else {
       res.status(401).json("property not found");

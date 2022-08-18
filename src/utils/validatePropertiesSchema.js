@@ -8,7 +8,7 @@ const validatePropertySchema = (data) =>{
         description: Joi.string().required(),
         size: Joi.number().required(),
         location: Joi.string().required(),
-        layouts: Joi.Array().required(),
+        layouts: Joi.string().required(),
         features: Joi.string().required(),
 
 

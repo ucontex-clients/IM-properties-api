@@ -20,8 +20,23 @@ const BlogSchema = new Schema(
       required: true
     }
   },
-  { timestamps: true }
-);
+
+  addedBy:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  body: {
+    type: String,
+    required: true
+  },
+}, { timestamps: true });
+
+
+
 
 const populateUser = function (next) {
   this.populate("addedBy", "_id email firstname lastname username image");
