@@ -10,4 +10,4 @@ const getAllTransactionController = async (req, res) => {
   }
 };
 
-module.exports = getAllUserController;
+module.exports = getAllTransactionController;

@@ -1,7 +1,7 @@
 const Blog = require("../../models/BlogSchema");
 
 const blog_details = (req, res) => {
-  const id = req.params.id;
+  const id = req.user._id;
   Blog.findById(id)
     .then((result) => {
       return res.status(200).json(result);

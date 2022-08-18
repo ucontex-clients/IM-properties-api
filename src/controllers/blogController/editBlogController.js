@@ -5,7 +5,7 @@ const editBlogController = async (req, res) => {
   try {
     let { body } = req;
     const update = await Blog.findByIdAndUpdate(
-      req.user._id,
+      req.params.id,
       {
         $set: body
       },

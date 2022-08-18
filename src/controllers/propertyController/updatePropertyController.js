@@ -23,7 +23,7 @@ const updatePropertyController = async (req, res) => {
     let { body, file } = req;
     body.image = file.path;
     const update = await Property.findByIdAndUpdate(
-      req.user._id,
+      req.params.id,
       {
         $set: body
       },

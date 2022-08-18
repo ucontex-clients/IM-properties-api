@@ -53,7 +53,7 @@ const loginController = async (req, res) => {
       res.status(400).json({ message: "invalid username and password" });
     }
   } catch (error) {
-    res.status(500).json({ error: { message: error } });
+    res.status(500).json({ error: { message: "login error" } });
     console.log(error);
   }
 };
