@@ -15,7 +15,14 @@ const registerController = async (req, res) => {
         .status(400)
         .json({ error: { message: error.details[0].message } });
     }
+    
     const userExist = await User.findOne({ email: body.email });
+    // const refererExist = await User.findOne({username:value.referedBy})
+    // if (!refererExist) {
+    //   return res.status(400).json({
+    //     error: { message: "Hey!! we don't have this user on our platform." }
+    //   });
+    // }
     if (userExist) {
       return res.status(400).json({
         error: { message: "Hey!! we already have you on board. Simply login" }
@@ -41,8 +48,8 @@ const loginController = async (req, res) => {
       res.status(400).json({ error: { message: error.details[0].message } });
     }
     const user = await User.findOne({ email: body.email }).select("+password");
-    const isPassword = await bcrypt.compare(body.password, user.password);
-    if (user && isPassword) {
+    // const isPassword = await bcrypt.compare(body.password, user.password);
+    if (user && await bcrypt.compare(body.password, user.password)) {
       const token = jwt.sign({ _id: user._id, role: user.role }, tokenSecret, {
         expiresIn: "30d"
       });
@@ -53,7 +60,7 @@ const loginController = async (req, res) => {
       res.status(400).json({ message: "invalid username and password" });
     }
   } catch (error) {
-    res.status(500).json({ error: { message: "login error" } });
+    res.status(500).json({ error: { message: error } });
     console.log(error);
   }
 };

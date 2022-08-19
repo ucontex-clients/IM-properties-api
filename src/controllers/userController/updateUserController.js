@@ -19,9 +19,9 @@ const uploadFile = (req, res) => {
 
 const updateUserController = async (req, res) => {
   try {
-    uploadFile(req, res);
+    // uploadFile(req, res);
     let { body, file } = req;
-    body.image = file.path;
+    // body.image = file.path;
     const update = await User.findByIdAndUpdate(
       req.user._id,
       {
