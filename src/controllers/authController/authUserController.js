@@ -15,7 +15,14 @@ const registerController = async (req, res) => {
         .status(400)
         .json({ error: { message: error.details[0].message } });
     }
+    
     const userExist = await User.findOne({ email: body.email });
+    // const refererExist = await User.findOne({username:value.referedBy})
+    // if (!refererExist) {
+    //   return res.status(400).json({
+    //     error: { message: "Hey!! we don't have this user on our platform." }
+    //   });
+    // }
     if (userExist) {
       return res.status(400).json({
         error: { message: "Hey!! we already have you on board. Simply login" }

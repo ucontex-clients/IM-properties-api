@@ -4,7 +4,7 @@ const validatePropertySchema = (data) =>{
     const schema = new Joi.object({
         name: Joi.string().required(),
         pricePerSm: Joi.number().required(),
-        category: Joi.string().required(),
+        category: Joi.object().required(),
         description: Joi.string().required(),
         // size: Joi.number().required(),
         location: Joi.string().required(),

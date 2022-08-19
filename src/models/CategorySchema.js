@@ -21,5 +21,5 @@ const categorySchema = new Schema(
   }
 );
 
-const category = model.Schema('Category', categorySchema)
+const category = model('Category', categorySchema)
 module.exports = category

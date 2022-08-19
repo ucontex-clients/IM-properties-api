@@ -4,7 +4,9 @@ const signupValidation = (data) =>{
     const schema = new joi.object({
         username: joi.string().required(),
         email: joi.string().required(),
-        password: joi.string().required()
+        password: joi.string().required(),
+        referedBy: joi.string().required(),
+        terms: joi.boolean().required()
     })
 
     return schema.validate(data)
