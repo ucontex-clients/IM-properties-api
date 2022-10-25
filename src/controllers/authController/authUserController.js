@@ -2,8 +2,8 @@ const User = require("../../models/User");
 const userSchemaValidation = require("../../utils/validateUserSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {TOKEN_SECRET} = require('../../config/constant')
 const validateUserLogin = require("../../utils/validateUserLogin");
-const tokenSecret = process.env.TOKEN_SECRET;
 
 const registerController = async (req, res) => {
   try {
@@ -17,12 +17,6 @@ const registerController = async (req, res) => {
     }
     
     const userExist = await User.findOne({ email: body.email });
-    // const refererExist = await User.findOne({username:value.referedBy})
-    // if (!refererExist) {
-    //   return res.status(400).json({
-    //     error: { message: "Hey!! we don't have this user on our platform." }
-    //   });
-    // }
     if (userExist) {
       return res.status(400).json({
         error: { message: "Hey!! we already have you on board. Simply login" }
@@ -48,10 +42,9 @@ const loginController = async (req, res) => {
       res.status(400).json({ error: { message: error.details[0].message } });
     }
     const user = await User.findOne({ email: body.email }).select("+password");
-    // const isPassword = await bcrypt.compare(body.password, user.password);
     if (user && await bcrypt.compare(body.password, user.password)) {
-      const token = jwt.sign({ _id: user._id, role: user.role }, tokenSecret, {
-        expiresIn: "30d"
+      const token = jwt.sign({ _id: user._id, role: user.role }, TOKEN_SECRET, {
+        expiresIn:"30d",
       });
       return res
         .status(200)

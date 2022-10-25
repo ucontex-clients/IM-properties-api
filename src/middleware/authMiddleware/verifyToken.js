@@ -1,5 +1,5 @@
 const User = require("../../models/User");
-const tokenSecret = process.env.TOKEN_SECRET;
+const {TOKEN_SECRET} = require('../../config/constant')
 const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req, res, next) => {
@@ -10,7 +10,7 @@ const verifyToken = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      jwt.verify(token, tokenSecret, async (err, user) => {
+      jwt.verify(token, TOKEN_SECRET, async (err, user) => {
         if (err) {
           res
             .status(401)
