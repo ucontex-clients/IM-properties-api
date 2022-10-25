@@ -1,8 +1,8 @@
-const dotenv = require("dotenv").config();
+// const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
-const port = process.env.PORT;
-const dbURI = process.env.MONGO_URI;
+const port = require("./config/constant").PORT
+const dbURI = require("./config/constant").mongoURI;
 const cors = require('cors')
 const app = express();
 app.use(cors());
@@ -41,4 +41,8 @@ app.use("*", (req, res) => {
   return res.status(404).json({ error: { messgage: "Route Not Found" } });
 });
 
-app.listen(port, console.log(`server running on ${port}`));
+const PORT = process.env.PORT || 6000;
+app.listen(PORT, (err) => {
+  if (err) console.log(err);
+  else console.log("Server Running on port " + PORT);
+});

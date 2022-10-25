@@ -7,22 +7,23 @@ const validatePropertySchema = require("../../utils/validatePropertiesSchema");
 
 const addPropertyController = async (req, res) => {
   try {
-    let { body, files } = req;
+    let { body, file } = req;
     const { error, value } = validatePropertySchema(body);
     if (error) {
       return res.json({ error: { message: error.details[0].message } });
     }
 
-    // body.images = files.path;
+    body.image = file.path;
+    body.video = file.path;
     const { _id } = req.user;
     // console.log(_id);
-    console.log(files)
+    console.log(file)
 
     body.nameSlug = slugify(body.name);
     body.catSlug = slugify(body.description);
 
     const preProperty = new Property({ ...body, addedBy: _id });
-    // console.log(preProduct);
+    // console.log(preProperty);
     const property = await preProperty.save();
     return res.status(201).json(property);
   } catch (error) {

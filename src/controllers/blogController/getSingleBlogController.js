@@ -2,7 +2,7 @@ const Blog = require("../../models/BlogSchema");
 
 const getSingleBlogController = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
+    const blog = await Blog.findById({_id:req.params.id});
     if (blog) {
       return res.status(200).json(blog);
     } else {
