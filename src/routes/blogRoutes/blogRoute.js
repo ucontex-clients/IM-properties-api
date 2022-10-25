@@ -12,15 +12,15 @@ const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyU
 const router = express.Router();
 
 
-router.get('/',verifyToken,verifyAdminToken,verifyAdminAndUserToken, getAllblogsController);
+router.get('/', getAllblogsController);
 
 router.post('/create-blog',verifyToken,verifyAdminToken, createBlogController);
 
-router.get('/details/:id',verifyToken,verifyAdminToken,verifyAdminAndUserToken, blogDetailsController );
+router.get('/details/:id',verifyToken,verifyAdminAndUserToken, blogDetailsController );
 
 router.delete('/delete/:id',verifyToken,verifyAdminToken, deleteBlogController);
 
-router.get('/single/:id',verifyToken,verifyAdminToken,verifyAdminAndUserToken, getsingleBlogController);
+router.get('/single/:id',verifyToken,verifyAdminAndUserToken, getsingleBlogController);
 
 router.put('/update/:id',verifyToken,verifyAdminToken, editBlogController);
 

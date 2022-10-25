@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const layoutSchema = new Schema(
   {
+    title: {
+      type: String,
+      required: true,
+    },
     width: {
       type: Number,
       required: true,
@@ -11,6 +15,10 @@ const layoutSchema = new Schema(
       required: true,
     },
     color:{
+      type:String,
+      required: true
+    },
+     image:{
       type:String,
       required: true
     }
@@ -38,6 +46,10 @@ const PropertySchema = new Schema({
     required: true,
   },
   image: {
+    type: String,
+    // required: true,
+  },
+  video: {
     type: String,
     // required: true,
   },
@@ -69,7 +81,7 @@ const PropertySchema = new Schema({
 });
 
 const populateUser = function (next) {
-  this.populate("addedBy", "_id email firstname lastname username");
+  this.populate("addedBy", "_id email username");
   this.populate("category");
 
   next();
