@@ -1,9 +1,9 @@
 const cloudinary = require("cloudinary");
-const { constant } = require ( "./constant");
+const  constant  = require ( "../config/constant");
 cloudinary.v2.config({
-  cloud_name: constants.CLOUDINARY_NAME,
-  api_key: constants.CLOUDINARY_KEY,
-  api_secret: constants.CLOUDINARY_SECRET
+  cloud_name: constant.CLOUDINARY_NAME,
+  api_key: constant.CLOUDINARY_KEY,
+  api_secret: constant.CLOUDINARY_SECRET
 });
 
 const cloudinaryConfig = async (file) => {

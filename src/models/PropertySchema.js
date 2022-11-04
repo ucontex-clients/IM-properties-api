@@ -4,7 +4,6 @@ const { Schema, model } = require("mongoose");
 const PropertySchema = new Schema({
   name: {
     type: String,
-    required: true,
   },
   pricePerSm: {
     type: Number,
@@ -12,19 +11,15 @@ const PropertySchema = new Schema({
   },
   title: {
     type: String,
-    required: true,
   },
   width: {
     type: Number,
-    required: true,
   },
   length: {
     type: Number,
-    required: true,
   },
   color:{
     type:String,
-    required: true
   },
   //  layoutImage:{
   //   type:String,
@@ -35,8 +30,7 @@ const PropertySchema = new Schema({
   //   default: true
   // },
   category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category'
+    type:Object,
   },
   about: {
     type: String,
@@ -45,12 +39,6 @@ const PropertySchema = new Schema({
   LGA: {
     type: String
   },
-  // location: {
-  //   type: Object
-  // },
-  // image: {
-  //   type: String,
-  // },
   video: {
     type: String,
   },
@@ -72,7 +60,7 @@ const PropertySchema = new Schema({
     default: 'Available'
   },
   location: {
-    type: String,
+    type: Object,
   },
   // features:{
   //   type:Array,
@@ -98,11 +86,11 @@ const PropertySchema = new Schema({
   },
   imagesMedia: {
     type: [Object],
-    select: false
+    // select: false
   },
-  reviews: {
-    type: [{ type: Schema.Types.ObjectId, ref: "Review" }]
-  }
+  // reviews: {
+  //   type: [{ type: Schema.Types.ObjectId, ref: "Review" }]
+  // }
 });
 
 const populateUser = function (next) {

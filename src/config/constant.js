@@ -1,6 +1,7 @@
 module.exports = {
-        mongoURI : "mongodb://127.0.0.1:27017/propDB",
+        // mongoURI : "mongodb://127.0.0.1:27017/propDB",
     // mongoURI: "mongodb+srv://im-proptek:im-proptek@cluster0.vjbxjd5.mongodb.net/?retryWrites=true&w=majority",
+      mongoURI: "mongodb+srv://im_properties:1234@impropertyclustername.zgwji3d.mongodb.net/?retryWrites=true&w=majority",
     CLOUDINARY_KEY: "467953581335727",
   CLOUDINARY_SECRET: "RYdlbmtQ70ibH6SW1ewN1jFAoJM",
   CLOUDINARY_NAME: "dfm1c1iri",

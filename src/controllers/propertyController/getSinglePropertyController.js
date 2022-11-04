@@ -1,17 +1,16 @@
 const Property = require("../../models/PropertySchema");
-
-const getSinglePropertyController = async (req, res) => {
+const getAproperty = async (req,res,next) => {
   try {
-    const property = await Property.findById(req.params.id);
-    if (property) {
-      return res.status(200).json(property);
-    } else {
-      return res.status(400).json("no property found");
-    }
+    const { id: _id } = req.params;
+
+    const data = await Property.findOne({ _id }).populate("reviews");
+
+    return res.status(200).json({
+      status: "success",
+      data
+    });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json(error);
+    next(error);
   }
 };
-
-module.exports = getSinglePropertyController;
+ module.exports = getAproperty

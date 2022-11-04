@@ -1,14 +1,13 @@
 const Property = require("../../models/PropertySchema");
-const Category = require("../../models/CategorySchema");
 const slugify = require("slugify");
 const validatePropertySchema = require("../../utils/validatePropertiesSchema");
-// const upload = require('../../middleware/multer.js')
-
+const uploads = require('../../utils/uploads')
 
 const addNewProperty = async (req, res, next) => {
   try {
-    console.log(req.body);
-    const { error, value } = validatePropertySchema(req.body);
+    const {body}= req
+    console.log(body)
+    const { error, value } = validatePropertySchema.validate(body);
     console.log(value);
 
     if (error) {
@@ -43,6 +42,7 @@ const addNewProperty = async (req, res, next) => {
     let count = 0;
     let slug = slugify(value.name, { lower: true });
     value.nameSlug = slug;
+    value.catSlug= slug;
     // value.location = JSON.parse(value.location);
     while (true) {
       const isProperty = await Property.findOne({ nameSlug: value.nameSlug });
@@ -67,6 +67,19 @@ const addNewProperty = async (req, res, next) => {
       LGA: value.LGA,
       city: value.city,
       address: value.address
+    };
+
+    value.layout = {
+      length: value.length,
+      width: value.width,
+      color:value.color,
+      layoutImageURL: imagesURLs
+    };
+
+    value.category = {
+      name: value.length,
+      about: value.width,
+      nameSlug:value.color,
     };
 
     const property = await Property.create(value);

@@ -15,7 +15,9 @@ app.use(express.json({ limit: "1000000mb", extended: true }));
 const conn = mongoose
   .connect(dbURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    tlsAllowInvalidCertificates: true,
+
   })
   .then(() => {
     console.log("MongoDB Connected");
