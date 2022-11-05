@@ -1,34 +1,95 @@
 const Property = require("../../models/PropertySchema");
-const Category = require("../../models/CategorySchema");
 const slugify = require("slugify");
 const validatePropertySchema = require("../../utils/validatePropertiesSchema");
-// const upload = require('../../middleware/multer.js')
+const uploads = require('../../utils/uploads')
 
-
-const addPropertyController = async (req, res) => {
+const addNewProperty = async (req, res, next) => {
   try {
-    let { body, file } = req;
-    const { error, value } = validatePropertySchema(body);
+    const {body}= req
+    console.log(body)
+    const { error, value } = validatePropertySchema.validate(body);
+    console.log(value);
+
     if (error) {
-      return res.json({ error: { message: error.details[0].message } });
+      console.log("here-2");
+      return res.status(400).json({
+        error: { message: error.details[0].message }
+      });
+    }
+    let imagesURLs = [];
+    let imagesMedia = [];
+
+    const files = req.files;
+    console.log(files);
+    if (files && files.length > 0) {
+      for (let file of files) {
+        const media = await uploads(file);
+        console.log(imagesURLs);
+        imagesURLs.push(media.imageURL);
+        imagesMedia.push(media);
+      }
+    } else {
+      return res.status(401).json({
+        error: { message: "At least one image must be uploaded" }
+      });
+    }
+    value.imagesMedia = imagesMedia;
+    value.imagesURLs = imagesURLs;
+
+    value.name =
+      value.name[0].toUpperCase() + value.name.substr(1).toLowerCase();
+
+    let count = 0;
+    let slug = slugify(value.name, { lower: true });
+    value.nameSlug = slug;
+    value.catSlug= slug;
+    // value.location = JSON.parse(value.location);
+    while (true) {
+      const isProperty = await Property.findOne({ nameSlug: value.nameSlug });
+      if (!isProperty) break;
+      count++;
+      value.nameSlug = slug + "-" + count;
+    }
+    if (value.features) {
+      if (value?.features.type == "string") {
+        value.features = [value.features];
+      } else {
+        value.features = Array.from(new Set(value.features));
+      }
     }
 
-    body.image = file.path;
-    body.video = file.path;
-    const { _id } = req.user;
-    // console.log(_id);
-    console.log(file)
+    console.log(value);
 
-    body.nameSlug = slugify(body.name);
-    body.catSlug = slugify(body.description);
+    //@ts-ignore
+    value.uploadedBy = req.user._id;
+    value.location = {
+      state: value.state,
+      LGA: value.LGA,
+      city: value.city,
+      address: value.address
+    };
 
-    const preProperty = new Property({ ...body, addedBy: _id });
-    // console.log(preProperty);
-    const property = await preProperty.save();
-    return res.status(201).json(property);
+    value.layout = {
+      length: value.length,
+      width: value.width,
+      color:value.color,
+      layoutImageURL: imagesURLs
+    };
+
+    value.category = {
+      name: value.length,
+      about: value.width,
+      nameSlug:value.color,
+    };
+
+    const property = await Property.create(value);
+    return res.status(200).json({
+      status: "success",
+      data: property
+    });
   } catch (error) {
     console.log(error);
+    next(error);
   }
 };
-
-module.exports = {addPropertyController}
+module.exports = addNewProperty
