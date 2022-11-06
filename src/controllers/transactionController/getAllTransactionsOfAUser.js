@@ -1,11 +1,13 @@
-// import { Transaction } from "../../models";
 const Transaction = require("../../models/TransactionSchema")
-const getAllTransactions = async ( req,res,next) => {
+
+export const getAllTransactionsOfAUser = async (req, res, next) => {
   try {
-    let {limit = 10,page = 1} = req.query;
+    let {limit = 1, page = 1} = req.query;
     page = page || 1;
     const skip = page ? (page - 1) * limit : 0;
-    let option = {};
+    //@ts-ignore
+    let option = { appliedBy: req.user._id };
+    console.log(option);
 
     const count = await Transaction.find(option).sort({updatedAt:-1}).countDocuments();
     // const pages = count>0?Math.ceil(count / limit)?Math.ceil(count / limit): 1;
@@ -18,7 +20,7 @@ const getAllTransactions = async ( req,res,next) => {
       }
     }
 
-    const result= {};
+    const result = {};
     limit = limit - 0;
 
     if (page * 1 < pages) {
@@ -29,7 +31,6 @@ const getAllTransactions = async ( req,res,next) => {
     }
 
     const transaction = await Transaction.find(option)
-      .populate("addedBy")
       .limit(limit * 1)
       .skip(skip);
     return res
@@ -40,4 +41,3 @@ const getAllTransactions = async ( req,res,next) => {
   }
 };
 
-module.exports = getAllTransactions
