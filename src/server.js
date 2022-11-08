@@ -5,7 +5,22 @@ const port = require("./config/constant").PORT
 const dbURI = require("./config/constant").mongoURI;
 const cors = require('cors')
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: [
+    "http://localhost:6000",
+    "http://localhost:6001",
+    "http://localhost:6002",
+    "https://im-properties-api.herokuapp.com",
+    "https://im-properties-api.herokuapp.com/api/auth/login"
+
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH"],
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
+app.use( cors(corsOptions));
+
+
 
 app.use(express.urlencoded({ limit: "1000000mb", extended: true }));
 app.use(express.json({ limit: "1000000mb", extended: true }));
