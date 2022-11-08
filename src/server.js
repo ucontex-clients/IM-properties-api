@@ -7,12 +7,7 @@ const cors = require('cors')
 const app = express();
 const corsOptions = {
   origin: [
-    "http://localhost:6000",
-    "http://localhost:6001",
-    "http://localhost:6002",
-    "https://im-properties-api.herokuapp.com",
-    "https://im-properties-api.herokuapp.com/api/auth/login"
-
+    "*"
   ],
   methods: ["GET", "POST", "PUT", "PATCH"],
   credentials:true,            //access-control-allow-credentials:true
