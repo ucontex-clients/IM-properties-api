@@ -7,8 +7,11 @@ const validateUserLogin = require("../../utils/validateUserLogin");
 
 const registerController = async (req, res) => {
   try {
-    let { body } = req;
-
+    
+    let { body } = req
+    const role = body.role
+    if (role === "ESP" || role === "Buyer"){
+      
     const { error, value } = userSchemaValidation(body);
     if (error) {
       return res
@@ -24,10 +27,10 @@ const registerController = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     body.password = await bcrypt.hash(body.password, salt);
-    body.role ="admin"
+    body.role = role
 
     const newUser = await User.create(body);
-    return res.status(200).json(newUser);
+    return res.status(200).json(newUser)};
   } catch (error) {
     res.status(500).json(error);
   }
