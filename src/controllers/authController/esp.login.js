@@ -16,7 +16,7 @@
 //     }
 
 //     const user = await User.findOne({ email: value.email }).select("+password");
-//     if (!user || user.role !== "admin") {
+//     if (!user || user.role !== "ESP") {
 //       return res.status(400).json({
 //         error: {
 //           status: "fail",

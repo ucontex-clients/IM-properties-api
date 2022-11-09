@@ -7,9 +7,9 @@ const cors = require('cors')
 const app = express();
 const corsOptions = {
   origin: [
-    "*"
+    "http://localhost:3000",
+    "https://improperties.herokuapp.com",
   ],
-  methods: ["GET", "POST", "PUT", "PATCH"],
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }

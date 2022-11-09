@@ -39,8 +39,8 @@ const UserSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:['user','admin'],
-        default:'user'
+        enum:['buyer','ESP',"admin"],
+        default:'buyer'
     },
     referer:{
         type:String,

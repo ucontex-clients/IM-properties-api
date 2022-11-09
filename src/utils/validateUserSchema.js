@@ -6,6 +6,7 @@ const signupValidation = (data) =>{
         email: joi.string().required(),
         password: joi.string().required(),
         referedBy: joi.string().required(),
+        role: joi.string().required().valid("ESP","Buyer"),
         terms: joi.boolean().required()
     })
 
