@@ -1,5 +1,4 @@
-const Transaction = require("../../models/TransactionSchema")
-
+const Payment = require("../../models/PaymentSchema")
 export const getAllTransactionsOfAUser = async (req, res, next) => {
   try {
     let {limit = 1, page = 1} = req.query;
@@ -9,7 +8,7 @@ export const getAllTransactionsOfAUser = async (req, res, next) => {
     let option = { appliedBy: req.user._id };
     console.log(option);
 
-    const count = await Transaction.find(option).sort({updatedAt:-1}).countDocuments();
+    const count = await Payment.find(option).sort({updatedAt:-1}).countDocuments();
     // const pages = count>0?Math.ceil(count / limit)?Math.ceil(count / limit): 1;
     let pages = 0;
     if (count > 0) {
@@ -30,7 +29,7 @@ export const getAllTransactionsOfAUser = async (req, res, next) => {
       result.previous = { limit, page: page - 1 };
     }
 
-    const transaction = await Transaction.find(option)
+    const transaction = await Payment.find(option)
       .limit(limit * 1)
       .skip(skip);
     return res

@@ -1,45 +1,80 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const PaymentSchema = new Schema(
+const paymentSchema = new Schema(
   {
-    account_number: {
+    amount: {
       type: Number,
     },
-    account_name: {
+    mode: {
       type: String,
+      enum: [ "easybuy", "outright"],
+      default: "outright"
     },
-    bank_name: {
+    TransID: {
       type: String,
+      default:"IM 0023"
     },
-    addedBy: {
+    // order: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Order",
+    // },
+    transactionBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
-    status: {
-        type: Array,
-        enum: ['pending','approved'],
-        default: 'pending'
-      },
+    paid:{
+      type:Number
+    },
+    balance:{
+      type: Number,
+    },
+    duration:{
+      type: String,
+      enum: ["3-months","6-months","12-months"],
+      default:"3-months"
+    },
+    paymentMethod:{
+      type: String,
+      enum: ["flutterwave","bankPayment"],
+      default:"flutterwave"
+    },
+    nextPayment:{
+      type: String,
+      default:"next month"
+    },
+    property:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Property",
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
+paymentSchema.pre("validate", function (next) {
+  if (this.name) {
+    this.catSlug = slugify(this.name, {
+      lower: true,
+      strict: true
+    });
+  }
 
+  next();
+});
 
 const populateUser = function (next) {
-  this.populate("addedBy", "_id lastName firstName phone email");
-
+  this.populate("transactionBy", "_id lastName firstName phone email"),
+  // this.populate("order");
+  this.popualte("property")
   next();
 };
 
-PaymentSchema.pre("find", populateUser)
+paymentSchema.pre("find", populateUser)
   .pre("findOne", populateUser)
   .pre("findOneAndUpdate", populateUser);
 
-const Payment = mongoose.model("Payment", PaymentSchema);
+const Payment = mongoose.model("Payment", paymentSchema);
 
 module.exports = Payment;

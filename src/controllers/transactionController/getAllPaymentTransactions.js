@@ -1,13 +1,12 @@
-// import { Transaction } from "../../models";
-const Transaction = require("../../models/TransactionSchema")
-const getAllTransactions = async ( req,res,next) => {
+const Payment = require("../../models/PaymentSchema")
+const getAllPaymentTransactions = async ( req,res,next) => {
   try {
     let {limit = 10,page = 1} = req.query;
     page = page || 1;
     const skip = page ? (page - 1) * limit : 0;
     let option = {};
 
-    const count = await Transaction.find(option).sort({updatedAt:-1}).countDocuments();
+    const count = await Payment.find(option).sort({updatedAt:-1}).countDocuments();
     // const pages = count>0?Math.ceil(count / limit)?Math.ceil(count / limit): 1;
     let pages = 0;
     if (count > 0) {
@@ -28,16 +27,16 @@ const getAllTransactions = async ( req,res,next) => {
       result.previous = { limit, page: page - 1 };
     }
 
-    const transaction = await Transaction.find(option)
+    const payment = await Payment.find(option)
       .populate("addedBy")
       .limit(limit * 1)
       .skip(skip);
     return res
       .status(200)
-      .json({ status: "success", data: { ...result, count, pages, transaction } });
+      .json({ status: "success", data: { ...result, count, pages, payment } });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = getAllTransactions
+module.exports = getAllPaymentTransactions
