@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { uploadPhotos } = require('../../config/Multer');
+const { uploadPhotos } = require('../../config/multer');
 const { cloudinary } = require('../../config/cloudinaryConfig');
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const fs = require('fs');
