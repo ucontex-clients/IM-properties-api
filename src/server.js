@@ -4,6 +4,7 @@ const express = require("express");
 const port = require("./config/constant").PORT
 const dbURI = require("./config/constant").mongoURI;
 const cors = require('cors')
+const path = require('path');
 const app = express();
 const corsOptions = {
   origin: '*',
@@ -22,10 +23,9 @@ app.use(cors({
 app.use( cors(corsOptions));
 
 
-
 app.use(express.urlencoded({ limit: "1000000mb", extended: true }));
 app.use(express.json({ limit: "1000000mb", extended: true }));
-
+app.use(express.static(`${__dirname}/public`));
 
 //MongoDB connection
 const conn = mongoose
@@ -50,10 +50,14 @@ app.use(express.json());
 app.get("/", (req, res) => {
   return res.status(200).send("We're up and running!!");
 });
+
+app.use("/api/booking", require("./routes/bookingRoutes/bookingRoute"));
 app.use("/api/auth", require("./routes/authRoutes/authUserRoutes"));
 app.use("/api/user", require("./routes/userRoutes/userRoute"));
 app.use("/api/property", require("./routes/propertyRoutes/propertyRoute"));
 app.use("/api/blog", require("./routes/blogRoutes/blogRoute"));
+app.use("/api/payment", require("./routes/paymentRoutes/paymentRoute"));
+app.use("/api/admin", require("./routes/adminRoutes.js/adminRoutes"));
 
 app.use("*", (req, res) => {
   return res.status(404).json({ error: { messgage: "Route Not Found" } });

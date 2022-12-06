@@ -1,24 +1,28 @@
 const User = require("../../models/User");
-const slugify = require("slugify");
-const vaildateUserDetails = require("../../utils/vaildateUserDetails");
+const express = require('express');
 
 const addUserDetailsController = async (req, res) => {
+  const { _id } = req.user;
   try {
-    let { body, file } = req;
-    const { error, value } = vaildateUserDetails(body);
-    if (error) {
-      return res.json({ error: { message: error.details[0].message } });
-    }
-    // body.images = file.path;
-    const { _id } = req.user;
-    console.log(_id);
+    const updatedUser = await User.findByIdAndUpdate(_id, 
+      { $set: req.body},
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
 
-    const user = new User({ ...body, addedBy: _id });
-    // console.log(preProduct);
-    const userInfo = await user.save();
-    return res.status(201).json(userInfo);
+    if(!updatedUser){
+      console.log('Failed to update User Profile ');
+      return res.status(400).json({ status:'Failed', message:"Failed to update user profile "});
+    }
+
+    console.log(updatedUser);
+    return res.status(200).json({ status:'Success', message: updatedUser });
+
   } catch (error) {
-    console.log(error);
+    console.log(error.message)
+    res.status(500).json({ message: error });
   }
 };
 

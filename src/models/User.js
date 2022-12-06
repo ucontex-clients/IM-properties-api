@@ -9,22 +9,14 @@ const KinSchema = new mongoose.Schema({
     },
     address:{
         type:String
-    }
-})
-
-const UploadSchema = new mongoose.Schema({
-    idUpload:{
-        type:String,
     },
-    pictureUpload:{
-        type:String,  
-    },
-})
+});
 
 const UserSchema = new mongoose.Schema({
     username:{
         type:String,
-        required:true
+        required:true,
+        unique: true
     },
     email:{
         type:String,
@@ -57,6 +49,9 @@ const UserSchema = new mongoose.Schema({
     state:{
         type:String,      
     },
+    lga:{
+        type:String,      
+    },
     gender:{
         type:String,  
     },
@@ -66,13 +61,22 @@ const UserSchema = new mongoose.Schema({
     phone2:{
         type:Number,
     },
+    date_of_birth: {
+        type: Date
+    },
+    occupation: {
+        type: String
+    },
     address:{
         type:String,
     },
-   upload:{
-    type: UploadSchema
+    pictureupload:{
+    type: String,
    },
-    kin:{
+   idupload:{
+    type: String,
+   },
+   kin:{
         type: KinSchema,
         
     },

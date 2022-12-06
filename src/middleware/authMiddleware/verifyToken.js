@@ -17,6 +17,7 @@ const verifyToken = async (req, res, next) => {
             .json({ error: { message: "Access denied, Invalid token" } });
         } else {
           req.user = await User.findOne({ _id: user._id });
+          // console.log(req.user);
           next();
         }
       });
