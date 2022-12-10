@@ -69,7 +69,7 @@ const addNewProperty = async (req, res, next) => {
     console.log(value);
 
     //@ts-ignore
-    value.uploadedBy = req.admin._id;
+    value.uploadedBy = req.admin;
     value.location = {
       state: value.state,
       LGA: value.LGA,
