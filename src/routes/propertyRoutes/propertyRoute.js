@@ -4,6 +4,7 @@ const getSinglePropertyController = require('../../controllers/propertyControlle
 const updatePropertyController = require('../../controllers/propertyController/updatePropertyController')
 const deletePropertyController = require('../../controllers/propertyController/deletePropertyController')
 const addPropertyController = require('../../controllers/propertyController/addPropertyController')
+const addPlot = require('../../controllers/propertyController/addPlotToProperty');
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const verifyAdminToken = require('../../middleware/authMiddleware/verifyAdmin')
 const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyUserAndAdmin')
@@ -11,15 +12,17 @@ const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyU
 
 // const upload = require('../../services/multer')
 
-router.get('/all',verifyToken,verifyAdminToken, getAllPropertyController )
+router.get('/all',verifyToken, getAllPropertyController )
 
-router.get('/single/:id',verifyToken,verifyAdminAndUserToken, getSinglePropertyController )
+router.get('/single/:id',verifyToken, getSinglePropertyController )
 
-router.put('/update/:id',verifyToken,verifyAdminAndUserToken, updatePropertyController )
+router.put('/update/:id',verifyToken, updatePropertyController )
 
-router.delete('/delete/:id',verifyToken,verifyAdminAndUserToken, deletePropertyController )
+router.delete('/delete/:id',verifyToken, deletePropertyController )
 
-router.post('/add',verifyToken,  addPropertyController)
+router.put('/addplot/:id', verifyAdminToken, addPlot);
+
+router.post('/add',verifyAdminToken,  addPropertyController)
 // verifyToken,verifyAdminToken,imageUpload.single('image'), videoUpload.single('video'),
 // upload.array('images', 3),
 

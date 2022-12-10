@@ -1,14 +1,19 @@
-const {schema,model} = require('mongoose')
+const {Schema,model} = require('mongoose')
 
-const ReviewSchema = new schema({
+const ReviewSchema = new Schema({
     message:{
         type:String,
         required:true
     },
     addedBy:{
-        type: schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+
+    // property: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Property'
+    // }
 },{
     timestamps:true
 })

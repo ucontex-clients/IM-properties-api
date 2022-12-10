@@ -1,26 +1,54 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
+const Admin = require('../models/adminSchema');
+const Review = require('../models/ReviewSchema');
+const { autoIncrement } = require ("mongoose-plugin-autoinc-fix");
 
 
 const PropertySchema = new Schema({
   name: {
     type: String,
   },
+
+  ticker: {
+    type: String,
+    unique: true
+  },
+
+  totalPlotSize:{
+    type: Number,
+    required: true,
+  },
+
+  estateFeatures: {
+    type: [String]
+  },
+
+  propertyFeatures: {
+    type: [String]
+  },
+
   pricePerSm: {
     type: Number,
     default: 0,
   },
-  title: {
-    type: String,
-  },
-  width: {
-    type: Number,
-  },
-  length: {
-    type: Number,
-  },
-  color:{
-    type:String,
-  },
+
+  plotLayout:[
+    {
+      width: Number,
+      length: Number,
+      price: Number,
+      color: String,
+      layoutTicker: String,
+      status: {
+        type: String,
+        Enum: ['sold', 'available'],
+        default: 'available'
+      }
+    }
+  ],
+
+
   //  layoutImage:{
   //   type:String,
   //   required: true
@@ -50,7 +78,7 @@ const PropertySchema = new Schema({
   },
   addedBy: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Admin",
     required: true,
     default: "62d77b4b251bc07f567efa10"
   },
@@ -88,9 +116,12 @@ const PropertySchema = new Schema({
     type: [Object],
     // select: false
   },
-  // reviews: {
-  //   type: [{ type: Schema.Types.ObjectId, ref: "Review" }]
-  // }
+  reviews:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review"
+    }
+  ],
 });
 
 const populateUser = function (next) {
@@ -103,6 +134,13 @@ const populateUser = function (next) {
 PropertySchema.pre("find", populateUser)
   .pre("findOne", populateUser)
   .pre("findOneAndUpdate", populateUser);
+
+PropertySchema.plugin(autoIncrement,{
+  model: "Property",
+  field: 'plotLayout',
+  startAt:001,
+  incrementBy: 1
+})
 
 const Property = model("Property", PropertySchema);
 

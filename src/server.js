@@ -57,7 +57,8 @@ app.use("/api/user", require("./routes/userRoutes/userRoute"));
 app.use("/api/property", require("./routes/propertyRoutes/propertyRoute"));
 app.use("/api/blog", require("./routes/blogRoutes/blogRoute"));
 app.use("/api/payment", require("./routes/paymentRoutes/paymentRoute"));
-app.use("/api/admin", require("./routes/adminRoutes.js/adminRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes/adminRoutes"));
+app.use("/api/review", require("./routes/reviewRoutes/reviewRoute"));
 
 app.use("*", (req, res) => {
   return res.status(404).json({ error: { messgage: "Route Not Found" } });
