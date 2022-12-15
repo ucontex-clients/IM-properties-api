@@ -12,9 +12,9 @@ const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyU
 
 // const upload = require('../../services/multer')
 
-router.get('/all',verifyToken, getAllPropertyController )
+router.get('/all', getAllPropertyController )
 
-router.get('/single/:id',verifyToken, getSinglePropertyController )
+router.get('/single/:id',getSinglePropertyController )
 
 router.put('/update/:id',verifyToken, updatePropertyController )
 
