@@ -1,10 +1,11 @@
 const Property = require("../../models/PropertySchema");
 const slugify = require("slugify");
 const validatePropertySchema = require("../../utils/validatePropertiesSchema");
+// const{ uploads} = require('../../utils/uploads');
 const cloudinary = require('../../config/cloudinary2');
 const fs = require('fs');
 
-const createProps = async(req, res) => {
+exports.createProps = async(req, res) => {
   const data = {
     name,
     ticker,
@@ -59,5 +60,3 @@ const createProps = async(req, res) => {
     return res.status(500).json(error.message)
   }
 }
-
-module.exports = createProps;

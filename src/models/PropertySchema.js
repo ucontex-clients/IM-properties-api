@@ -58,7 +58,7 @@ const PropertySchema = new Schema({
   //   default: true
   // },
   category: {
-    type:Object,
+    type:String,
   },
   about: {
     type: String,
