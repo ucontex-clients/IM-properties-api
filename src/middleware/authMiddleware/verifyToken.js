@@ -38,6 +38,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const {TOKEN_SECRET} = require('../../config/constant')
+const User = require('../../models/User');
 
 const verifyToken = async (req, res, next) => {
     try {
@@ -53,7 +54,7 @@ const verifyToken = async (req, res, next) => {
             throw new Error();
         }
 
-        req.user = decodedToken._id;
+        req.user = await User.findById(decodedToken._id);
         next();
     } catch (error) {
         return res.status(401).json('Register as a user!');

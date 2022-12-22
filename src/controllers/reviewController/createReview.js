@@ -1,18 +1,21 @@
 const express = require('express');
 const Review = require('../../models/ReviewSchema');
 const Property = require('../../models/PropertySchema');
-
+const moment = require('moment');
 exports.createReview = async (req, res) => {
   const id = req.params.id;
   console.log(req.user)
   const user = req.user;
+
+  console.log(user);
   
   try {
     const { message } = req.body;
 
     const newReview = await Review.create({
        message, 
-       user
+       user,
+       createdAt: moment()
      });
     if(!newReview){
       console.log('No review');
@@ -26,9 +29,14 @@ exports.createReview = async (req, res) => {
             reviews: newReview._id
           }
         })
+      const data = {
+        message: newReview.message,
+        createdBy: user.username,
+        createdAt: newReview.createdAt
+      };
 
-    console.log(newReview);
-    return res.status(200).json( newReview);
+    console.log(data);
+    return res.status(200).json( data);
     
   } catch (error) {
     console.log(error.message);

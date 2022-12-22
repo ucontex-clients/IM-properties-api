@@ -48,6 +48,14 @@ const PropertySchema = new Schema({
     }
   ],
 
+  maxlayoutPrice: {
+    type: Number
+  },
+
+  minimumPrice: {
+    type: Number
+  },
+
 
   //  layoutImage:{
   //   type:String,

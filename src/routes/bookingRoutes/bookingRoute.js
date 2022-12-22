@@ -5,7 +5,7 @@ const { cancelBooking } = require('../../controllers/bookingController/cancelBoo
 const { reschedule } = require('../../controllers/bookingController/rescheduleBooking');
 const router = express.Router();
 
-router.post('/createbooking', verifyToken, createBooking);
+router.post('/createbooking/:id', verifyToken, createBooking);
 router.patch('/reschedule/:id', verifyToken, reschedule );
 router.delete('/cancelbooking/:id', verifyToken, cancelBooking);
 
