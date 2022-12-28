@@ -1,6 +1,6 @@
 const User = require("../../models/User");
 
-const getSingleUserController = async (req, res) => {
+exports.getSingleUserController = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
@@ -14,4 +14,16 @@ const getSingleUserController = async (req, res) => {
   }
 };
 
-module.exports = getSingleUserController;
+
+exports.getAnySingleUser = async(req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if(user){
+      console.log(user);
+      return res.status(200).json(user);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json(error.message);
+  }
+}

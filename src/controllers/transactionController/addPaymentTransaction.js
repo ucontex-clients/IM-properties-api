@@ -48,6 +48,7 @@ exports.response =  async(req, res) => {
     // Check if this is a first time payment for this property or not
     const payment = await Payment.findOne(property).populate('property');
     if(payment) {
+      payment.Payer = _id
       payment.amount= parseFloat((property.width * property.length) * property.pricePerSm);
       payment.mode = paymentMode;
       payment.paid += flutter.amount;

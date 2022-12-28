@@ -3,6 +3,7 @@ const Property = require("../../models/PropertySchema");
 const getAllPropertyController = async (req, res) => {
   try {
     const property = await Property.find();
+  
     console.log(property);
     return res.status(200).json(property);
   } catch (error) {

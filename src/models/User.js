@@ -31,11 +31,12 @@ const UserSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:['buyer','ESP',"admin"],
+        enum:['buyer','ESP'],
         default:'buyer'
     },
     referer:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'esp'
     },
     firstname:{
         type:String,
