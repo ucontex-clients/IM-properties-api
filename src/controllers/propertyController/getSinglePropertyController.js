@@ -5,6 +5,8 @@ const getAproperty = async (req,res,next) => {
 
     const data = await Property.findOne({ _id }).populate("reviews");
 
+    console.log(data.plotLayout);
+
     return res.status(200).json({
       status: "success",
       data

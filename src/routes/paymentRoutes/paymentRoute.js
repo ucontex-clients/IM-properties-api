@@ -9,7 +9,8 @@ const moment = require('moment');
 const PaymentController  = require("../../controllers/transactionController/addPaymentTransaction");
 
 
-router.post('/paymentflutterwave/:property/:transaction_url', verifyToken, PaymentController.response );
+router.post('/payment/:property/:transaction_url', verifyToken, PaymentController.outrightPayment);
+router.post('/payment/:property/:transaction_url', verifyToken, PaymentController.installmentalpayment);
 
 
 

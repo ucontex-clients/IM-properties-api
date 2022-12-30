@@ -5,6 +5,12 @@ const Transaction = require('./TransactionSchema');
 
 const paymentSchema = new Schema(
   {
+    Payer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+
     amount: {
       type: Number,
     },

@@ -19,7 +19,7 @@ router.patch('/addprofile', verifyToken, addUserDetails );
 
 router.get('/single',verifyToken,verifyAdminAndUserToken, getSingleUserController )
 
-router.get('/anysingle/:id',verifyToken,verifyAdminAndUserToken, getAnySingleUser )
+router.get('/anysingle/:id', getAnySingleUser )
 
 router.put('/update',verifyToken,verifyAdminAndUserToken, updateUserController )
 

@@ -12,7 +12,7 @@ exports.reschedule = async(req, res) => {
       return res.status(400).json('Invalid Date, can not book a past date')
     }
     
-    const rescheduledBooking = await User.findByIdAndUpdate(req.params.id,
+    const rescheduledBooking = await Booking.findByIdAndUpdate(req.params.id,
       { $set: body },
       { new: true, runValidators: true }
     )
@@ -29,5 +29,4 @@ exports.reschedule = async(req, res) => {
     console.log(error.message)
     res.status(500).json({ message: error }); 
   }
-
 }

@@ -17,7 +17,7 @@ exports.getSingleUserController = async (req, res) => {
 
 exports.getAnySingleUser = async(req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).populate('referer');
     if(user){
       console.log(user);
       return res.status(200).json(user);

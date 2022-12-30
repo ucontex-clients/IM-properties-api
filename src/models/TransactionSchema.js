@@ -17,6 +17,13 @@ const transactionSchema = new Schema(
       required: true
     },
 
+    plotLayout: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Property'
+      }
+    ],
+
     amount: {
       type: Number,
       required: true

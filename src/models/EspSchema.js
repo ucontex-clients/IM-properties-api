@@ -55,6 +55,20 @@ const espSchema = mongoose.Schema({
     type: accountSchema
   },
 
+  paidDownline:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }
+  ],
+
+  paidSecondDownline:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }
+  ],
+
   referralId: {
     type: String,
     unique: true
@@ -68,8 +82,28 @@ const populateUser = function (next) {
   next();
 };
 
+// const upgradeLevel = function(next){
+//   if (this.paidDownline.length >=1 && this.paidDownline.length <= 24 ) {
+//   this.level = 'star1';
+//   }
+//   else if (this.paidDownline.length >=25 && this.paidDownline.length <= 49) {
+//   this.level = 'team-leader';
+//   }
+//   else if(this.paidDownline.length >=50 && this.paidDownline.length <= 99){
+//   this.level = 'super-partner';
+//   }
+//   else if(this.paidDownline.length >= 100){
+//   this.level = 'diamond-director'
+//   }
+//   next();
+// };
+
 espSchema.pre("find", populateUser)
   .pre("findOne", populateUser)
-  .pre("findOneAndUpdate", populateUser);
-
+  .pre("findOneAndUpdate", populateUser)
+  // .pre('save', upgradeLevel)
+  // .pre("find", upgradeLevel)
+  // .pre('findOne', upgradeLevel)
+  // .pre('findOneAndUpdate', upgradeLevel);
+  
 module.exports = mongoose.model('esp', espSchema );

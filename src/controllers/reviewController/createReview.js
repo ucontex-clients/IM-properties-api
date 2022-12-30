@@ -30,6 +30,7 @@ exports.createReview = async (req, res) => {
           }
         })
       const data = {
+        review: r,
         message: newReview.message,
         createdBy: user.username,
         createdAt: newReview.createdAt

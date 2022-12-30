@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const Admin = require('../models/adminSchema');
 const Review = require('../models/ReviewSchema');
-const { autoIncrement } = require ("mongoose-plugin-autoinc-fix");
 
 
 const PropertySchema = new Schema({
@@ -42,17 +41,17 @@ const PropertySchema = new Schema({
       layoutTicker: String,
       status: {
         type: String,
-        Enum: ['sold', 'available'],
+        Enum: ['sold', 'available', 'ongoingPayment'],
         default: 'available'
       }
     }
   ],
 
-  maxlayoutPrice: {
+  maximumPlotLayoutPrice: {
     type: Number
   },
 
-  minimumPrice: {
+  minimumPlotLayoutPrice: {
     type: Number
   },
 
@@ -139,16 +138,30 @@ const populateUser = function (next) {
   next();
 };
 
+// const priceRange = function(next) {
+//   let maxPrice = 0;
+//   let minPrice = Infinity;
+//   this.plotLayout.forEach((plot) => {
+//     if (plot.price > maxPrice) {
+//       maxPrice = plot.price;
+//     }
+//     if (plot.price < minPrice) {
+//       minPrice = plot.price;
+//     }
+//   });
+//   this.maximumPlotLayoutPrice = maxPrice;
+//   this.minimumPlotLayoutPrice = minPrice;
+//   next();
+// };
+
 PropertySchema.pre("find", populateUser)
   .pre("findOne", populateUser)
-  .pre("findOneAndUpdate", populateUser);
+  .pre("findOneAndUpdate", populateUser)
+  // .pre('save', priceRange)
+  // .pre("find", priceRange)
+  // .pre("findOne", priceRange)
+  // .pre("findOneAndUpdate", priceRange);
 
-PropertySchema.plugin(autoIncrement,{
-  model: "Property",
-  field: 'plotLayout',
-  startAt:001,
-  incrementBy: 1
-})
 
 const Property = model("Property", PropertySchema);
 

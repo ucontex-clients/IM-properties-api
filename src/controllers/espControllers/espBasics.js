@@ -18,12 +18,13 @@ exports.switchToEsp = async(req, res) => {
     { new: true});
 
     const referralCode = generateReferall();
+    console.log(referralCode);
     const alreadyTaken = await Esp.findOne({
       referralId: referralCode
     });
     
     if(alreadyTaken) {
-      generateReferral()
+      generateReferall()
     };
 
     console.log(referralCode);
@@ -51,14 +52,38 @@ exports.switchToEsp = async(req, res) => {
     console.log(data);
     return res.status(200).json({ status: 'success', message: data });
   } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status:'failed', message: error })
+  }
+}
+
+exports.getEspByID = async(req, res) => {
+  try{
+    const esp = await Esp.findById(req.params.id);
+    if(!esp){
+      console.log('ESP not found');
+      return res.status(404).json('ESP not found');
+    }
+
+    console.log(esp);
+    return res.status(200).json({ status:'success', message: esp});
+  }
+  catch{
     console.log(error.message);
     return res.status(500).json({ status:'failed', message: error.message })
   }
 }
 
-exports.getProperties = async(req, res) => {
+exports.getall = async(req, res) => {
   try{
-    
+    const esp = await Esp.find();
+    if(!esp){
+      console.log('ESP not found');
+      return res.status(404).json('ESP not found');
+    }
+
+    console.log(esp);
+    return res.status(200).json({ status:'success', message: esp});
   }
   catch{
     console.log(error.message);
