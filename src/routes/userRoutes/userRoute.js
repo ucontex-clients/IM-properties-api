@@ -12,6 +12,7 @@ const validateUserDetails = require('../../utils/vaildateUserDetails')
 const addUserDetails = require('../../controllers/userController/addUserDetailsController')
 const User = require('../../models/User')
 const fs = require('fs');
+const { userProperty } = require('../../controllers/userController/userProperties.js');
 
 router.get('/all',verifyToken,verifyAdminToken, getAllUserController )
 
@@ -20,6 +21,8 @@ router.patch('/addprofile', verifyToken, addUserDetails );
 router.get('/single',verifyToken,verifyAdminAndUserToken, getSingleUserController )
 
 router.get('/anysingle/:id', getAnySingleUser )
+
+router.get('/userproperty', verifyToken, userProperty);
 
 router.put('/update',verifyToken,verifyAdminAndUserToken, updateUserController )
 

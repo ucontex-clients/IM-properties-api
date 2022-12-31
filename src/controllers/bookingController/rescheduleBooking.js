@@ -10,12 +10,16 @@ exports.reschedule = async(req, res) => {
     if(now > moment(req.body.date)){
       console.log('Invalid Date, can not book a past date');
       return res.status(400).json('Invalid Date, can not book a past date')
-    }
-    
-    const rescheduledBooking = await Booking.findByIdAndUpdate(req.params.id,
-      { $set: body },
+    };
+
+    const message = req.body;
+    property = req.params.id;
+
+    const rescheduledBooking = await Booking.findOneAndUpdate(
+      {id:req.params.id, User: id },
+      { id, property, ...req.body },
       { new: true, runValidators: true }
-    )
+    );
 
     if(!rescheduledBooking){
       console.log('Could not reschedule booking ');
