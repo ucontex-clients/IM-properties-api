@@ -27,7 +27,12 @@ const createProps = async(req, res) => {
     
 
     const results = await files.map(async (file) => {
-      return await cloudinary.uploader.upload(file.path);
+      const result = await cloudinary.uploader.upload(file.path);
+      fs.unlink(file.path, (err) => {
+        if (err) throw err;
+        console.log(`${file.path} was deleted`);
+      });
+      return result;
     })
 
    const newArr = await Promise.all(results);

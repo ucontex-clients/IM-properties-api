@@ -19,7 +19,7 @@ router.get('/all', getAllPropertyController )
 
 router.get('/single/:id',getSinglePropertyController )
 
-router.put('/update/:id',verifyToken, updatePropertyController )
+router.put('/update/:id',verifyToken, updatePropertyController );
 
 router.delete('/delete/:id',verifyToken, deletePropertyController )
 
