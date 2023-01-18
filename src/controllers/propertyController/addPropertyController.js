@@ -3,8 +3,9 @@ const slugify = require("slugify");
 const validatePropertySchema = require("../../utils/validatePropertiesSchema");
 const cloudinary = require('../../config/cloudinary2');
 const fs = require('fs');
+const { findByIdAndUpdate } = require("../../models/adminSchema");
 
-const createProps = async(req, res) => {
+exports.createProps = async(req, res) => {
   const data = {
     name,
     ticker,
@@ -65,4 +66,65 @@ const createProps = async(req, res) => {
   }
 }
 
-module.exports = createProps;
+
+
+exports.uploadVideos = async(req, res) => {
+  try {
+    const file = req.file;
+    console.log(file);
+    const fName = file.originalname.split(".")[0];
+
+    const result = await cloudinary.uploader.upload(file.path, 
+      { 
+        resource_type: 'video',
+        public_id: `videoUploads/${fName}`,
+        chunk_size: 6000000,
+        eager: [
+          {
+            width: 300,
+            height: 300,
+            crop: "pad",
+            audio_codec: 'none'
+          },
+          {
+            width: 300,
+            height: 300,
+            crop: "crop",
+            gravity: "south",
+            audio_codec: 'none'
+          },
+        ]
+      });
+    if(!result) {
+      console.log('Video upload failed');
+      return res.status(400).json({ status:'failed', message:'video upload failed'});
+    }
+
+    console.log(result);
+
+    fs.unlink(file.path, (err) => {
+      if (err) throw err;
+      console.log(`${file.path} was deleted`);
+    });
+
+    console.log(`This is result: ${result}`);
+
+    const property = await Property.findByIdAndUpdate(req.params.id, {
+      video: result.secure_url
+    },
+    { new: true }
+    );
+
+    if(!property){
+      console.log('failed to update Property object');
+      return res.status(400).json({ status:'failed', message:'failed to update Property object'});
+    }
+
+    console.log(property);
+      return res.status(200).json({ status:'success', message:property});
+        
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.message)
+  }
+};

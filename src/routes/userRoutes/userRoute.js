@@ -7,7 +7,7 @@ const deleteUserController = require('../../controllers/userController/deleteUse
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const verifyAdminToken = require('../../middleware/authMiddleware/verifyAdmin')
 const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyUserAndAdmin')
-const { uploadPhotos } = require('../../config/multer');
+const { uploads } = require('../../config/multer2');
 const { cloudinary } = require('../../config/cloudinaryConfig');
 const validateUserDetails = require('../../utils/vaildateUserDetails')
 const addUserDetails = require('../../controllers/userController/addUserDetailsController')
@@ -29,7 +29,7 @@ router.put('/update',verifyToken,verifyAdminAndUserToken, updateUserController )
 
 router.delete('/delete',verifyToken,verifyAdminAndUserToken, deleteUserController );
 
-router.patch('/userprofile', verifyToken, uploadPhotos.array('images'), userProfile);
+router.patch('/userprofile', verifyToken, uploads.array('images'), userProfile);
 
 
 // router.patch('/profile',verifyToken, uploadPhotos.array('images'), async (req, res ) => {

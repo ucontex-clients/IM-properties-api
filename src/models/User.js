@@ -4,10 +4,10 @@ const KinSchema = new mongoose.Schema({
     nextofkin:{
         type:String
     },
-    phone:{
+    kin_phone:{
         type:Number
     },
-    address:{
+    kin_address:{
         type:String
     },
 });

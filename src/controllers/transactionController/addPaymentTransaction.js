@@ -10,7 +10,7 @@ const moment = require('moment');
 const Flutterwave = require('flutterwave-node-v3');
 const flw = new Flutterwave(FLUTTERWAVE_PUBLIC_KEY, FLUTTERWAVE_SECRET_KEY);
 const ESP = require('../../models/EspSchema');
-const { directDownlinePercentage, commissionFromDownline} = require('../../utils/paymentCalculations')
+const { directDownlinePercentage, commissionFromDownline, balancePayment } = require('../../utils/paymentCalculations')
 
 exports.installmentalpayment =  async(req, res) => {
   const {_id} = req.user;
@@ -218,4 +218,71 @@ exports.outrightPayment = async(req, res) => {
     return res.status(500).json(error.message);
   }
 
+}
+
+
+exports.firstPaymentOfInstallmentPayment = async(req, res) => {
+  const {_id} = req.user;
+  const property = await Property.find(req.params.property);
+  try {
+    const{ transaction_id } = req.query;
+    const { paymentMode, duration, plotLayouts, totalPrice, amountPaid} = req.body;
+    // URL with the Transaction_ID sent from the frontend to Verify transaction
+    const url = `https://api.flutterwave.com/v3/transactions/${transaction_id}/verify`;
+
+    // Making an API call with Axios to verify Transaction
+    const response = await axios({
+      url,
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `${FLUTTERWAVE_SECRET_KEY}`,
+      },
+    });
+
+    const flutter = response.data.data;
+
+    // Create a Transaction using the Transaction model 
+    const data = {
+      payer: _id,
+      property,
+      amount: flutter.amount,
+      paymentMethod: "flutterwave",
+      currency: flutter.currency,
+      status: flutter.status,
+      plotLayout: plotLayouts
+    };
+    // Saving the Transaction in the Database
+    const transaction = await Transaction.create(data);
+
+    // const result = balancePayment( duration, property.)
+
+    // Check if this is a first time payment for this property or not
+    const paymentData = {
+      amount: parseFloat((property.width * property.length) * property.pricePerSm),
+      mode: paymentMode,
+      paid: flutter.amount,
+      balance: amount - paid,
+      duration : duration,
+      transactions: transaction._id,
+      nextPayment: moment().add(1, 'M'),
+      property: property,
+    };
+
+    const newPayment = await Payment.create(paymentData);
+
+    if(!newPayment) {
+      console.log('failed to create payment');
+      return res.status(400).json('failed to create payment');
+    }
+
+    console.log(newPayment);
+    return res.status(200).json(newPayment);
+    
+  }
+  catch(error){
+    console.log(error.message);
+    return res.status(500).json(error.message);
+  }
 }

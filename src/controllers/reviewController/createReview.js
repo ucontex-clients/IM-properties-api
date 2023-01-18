@@ -86,4 +86,14 @@ exports.edit = async(req, res) => {
     console.log(error.message);
     return res.status(500).json({ status:"failed", message: error.message });
   }
+};
+
+exports.videoReview = async(req, res)=> {
+  const file = req.file;
+  try {
+    
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ status:"failed", message: error.message });
+  }
 }

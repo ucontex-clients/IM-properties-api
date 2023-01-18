@@ -11,6 +11,7 @@ const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyU
 const {uploads} = require('../../config/multer2');
 
 const testProperty = require('../../controllers/propertyController/testproperty');
+const verifyAdmin = require('../../middleware/authMiddleware/verifyAdmin')
 // const {imageUpload, videoUpload} = require('../../middleware/multer.js')
 
 // const upload = require('../../services/multer')
@@ -26,8 +27,7 @@ router.delete('/delete/:id',verifyToken, deletePropertyController )
 router.put('/addplot/:id', verifyAdminToken, addPlot);
 
 // router.post('/add',verifyAdminToken,  addPropertyController)
-router.post('/add', verifyAdminToken, uploads.array('files'),  addPropertyController);
-// verifyToken,verifyAdminToken,imageUpload.single('image'), videoUpload.single('video'),
-// upload.array('images', 3),
+router.post('/add', verifyAdminToken, uploads.array('files'),  addPropertyController.createProps);
+router.patch('/videoupload/:id', verifyAdmin, uploads.single('video'), addPropertyController.uploadVideos);
 
 module.exports = router

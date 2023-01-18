@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const port = require("./config/constant").PORT
-const dbURI = require("./config/constant").mongoURI;
+const dbURI = require("./config/constant").mongoURI2;
 const cors = require('cors')
 const path = require('path');
 const app = express();
@@ -60,9 +60,10 @@ app.use("/api/payment", require("./routes/paymentRoutes/paymentRoute"));
 app.use("/api/admin", require("./routes/adminRoutes/adminRoutes"));
 app.use("/api/review", require("./routes/reviewRoutes/reviewRoute"));
 app.use("/api/esp", require('./routes/espRoutes/esproutes'));
+app.use('/api/testimonial', require('./routes/testimonialRoutes/testimonialRoute'));
 
 app.use("*", (req, res) => {
-  return res.status(404).json({ error: { messgage: "Route Not Found" } });
+  return res.status(404).json({ error: { message: "Route Not Found" } });
 });
 
 const PORT = process.env.PORT || 6000;

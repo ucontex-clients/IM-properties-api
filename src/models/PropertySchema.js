@@ -138,29 +138,10 @@ const populateUser = function (next) {
   next();
 };
 
-// const priceRange = function(next) {
-//   let maxPrice = 0;
-//   let minPrice = Infinity;
-//   this.plotLayout.forEach((plot) => {
-//     if (plot.price > maxPrice) {
-//       maxPrice = plot.price;
-//     }
-//     if (plot.price < minPrice) {
-//       minPrice = plot.price;
-//     }
-//   });
-//   this.maximumPlotLayoutPrice = maxPrice;
-//   this.minimumPlotLayoutPrice = minPrice;
-//   next();
-// };
 
 PropertySchema.pre("find", populateUser)
   .pre("findOne", populateUser)
-  .pre("findOneAndUpdate", populateUser)
-  // .pre('save', priceRange)
-  // .pre("find", priceRange)
-  // .pre("findOne", priceRange)
-  // .pre("findOneAndUpdate", priceRange);
+  .pre("findOneAndUpdate", populateUser);
 
 
 const Property = model("Property", PropertySchema);

@@ -35,3 +35,35 @@ exports.commissionFromDownline = (refererStatus, amount) => {
     return newAmount * 0.02
   }
 };
+
+exports.balancePayment = (paymentDuration, totalAmount, amountPaid) => {
+  if(paymentDuration == '3-months') {
+    const differences = totalAmount - amountPaid;
+    const percentage = differences * 0.1;
+    const newTotalAmount = differences + percentage;
+    const Payment = (newTotalAmount /3); 
+    const monthlyPayment = Math.ceil(Payment);
+
+    return {monthlyPayment, newTotalAmount, percentage, differences};
+  }
+  
+  else if(paymentDuration == '6-months') {
+    const differences = totalAmount - amountPaid;
+    const percentage = differences * 0.2;
+    const newTotalAmount = differences + percentage;
+    const Payment = (newTotalAmount /6); 
+    const monthlyPayment = Math.ceil(Payment);
+
+    return {monthlyPayment, newTotalAmount, percentage, differences};
+  }
+
+  else {
+    const differences = totalAmount - amountPaid;
+    const percentage = differences * 0.4;
+    const newTotalAmount = differences + percentage;
+    const Payment = (newTotalAmount /12); 
+    const monthlyPayment = Math.ceil(Payment);
+
+    return {monthlyPayment, newTotalAmount, percentage, differences};
+  }
+}

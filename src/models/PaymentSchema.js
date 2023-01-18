@@ -47,6 +47,10 @@ const paymentSchema = new Schema(
       default:"Null"
     },
 
+    monthlyPayment:{
+      type: Number
+    },
+
     property:{
       type: mongoose.Schema.Types.ObjectId,
       ref:"Property",

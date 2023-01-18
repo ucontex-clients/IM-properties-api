@@ -1,0 +1,12 @@
+# version: "1"
+# services:
+#   my-app:
+#     image: node:12
+#     mount:
+#       - .:/app
+#     env:
+#     - LOCAL_PUBLIC_DIR=./public
+#     - CONTAINER_PUBLIC_DIR=/app/public
+#     command: npm run start
+#     ports:
+#     - 6000:6000
