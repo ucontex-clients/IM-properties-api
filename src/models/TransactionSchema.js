@@ -11,6 +11,10 @@ const transactionSchema = new Schema(
       required: true
     },
 
+    flutterTransactionId: {
+      type: String
+    },
+
     Property: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Property",

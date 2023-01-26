@@ -51,6 +51,18 @@ const paymentSchema = new Schema(
       type: Number
     },
 
+    plotLayout: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Property'
+      }
+    ],
+
+    status: {
+      type: String,
+      enum: ['ongoing', 'completed']
+    },
+
     property:{
       type: mongoose.Schema.Types.ObjectId,
       ref:"Property",
