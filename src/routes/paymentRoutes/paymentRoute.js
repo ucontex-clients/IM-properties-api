@@ -12,6 +12,6 @@ const PaymentController  = require("../../controllers/transactionController/addP
 // router.post('/payment/:property/:transaction_url', verifyToken, PaymentController.outrightPayment);
 // router.post('/payment/:property/:transaction_url', verifyToken, PaymentController.installmentalpayment);
 router.get('/confirm', PaymentController.confirmPayment);
-router.patch('/update', PaymentController.update)
+// router.patch('/update', PaymentController.update)
 
 module.exports = router;
