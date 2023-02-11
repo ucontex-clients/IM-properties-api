@@ -4,23 +4,30 @@ const getSinglePropertyController = require('../../controllers/propertyControlle
 const updatePropertyController = require('../../controllers/propertyController/updatePropertyController')
 const deletePropertyController = require('../../controllers/propertyController/deletePropertyController')
 const addPropertyController = require('../../controllers/propertyController/addPropertyController')
+const addPlot = require('../../controllers/propertyController/addPlotToProperty');
 const verifyToken = require('../../middleware/authMiddleware/verifyToken')
 const verifyAdminToken = require('../../middleware/authMiddleware/verifyAdmin')
 const verifyAdminAndUserToken = require('../../middleware/authMiddleware/verifyUserAndAdmin')
+const {uploads} = require('../../config/multer2');
+
+const testProperty = require('../../controllers/propertyController/testproperty');
+const verifyAdmin = require('../../middleware/authMiddleware/verifyAdmin')
 // const {imageUpload, videoUpload} = require('../../middleware/multer.js')
 
 // const upload = require('../../services/multer')
 
-router.get('/all',verifyToken,verifyAdminToken, getAllPropertyController )
+router.get('/all', getAllPropertyController )
 
-router.get('/single/:id',verifyToken,verifyAdminAndUserToken, getSinglePropertyController )
+router.get('/single/:id',getSinglePropertyController )
 
-router.put('/update/:id',verifyToken,verifyAdminAndUserToken, updatePropertyController )
+router.put('/update/:id',verifyToken, updatePropertyController );
 
-router.delete('/delete/:id',verifyToken,verifyAdminAndUserToken, deletePropertyController )
+router.delete('/delete/:id',verifyToken, deletePropertyController )
 
-router.post('/add',verifyToken,  addPropertyController)
-// verifyToken,verifyAdminToken,imageUpload.single('image'), videoUpload.single('video'),
-// upload.array('images', 3),
+router.put('/addplot/:id', verifyAdminToken, addPlot);
+
+// router.post('/add',verifyAdminToken,  addPropertyController)
+router.post('/add', verifyAdminToken, uploads.array('files'),  addPropertyController.createProps);
+router.patch('/videoupload/:id', verifyAdmin, uploads.single('video'), addPropertyController.uploadVideos);
 
 module.exports = router

@@ -1,26 +1,61 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
+const Admin = require('../models/adminSchema');
+const Review = require('../models/ReviewSchema');
 
 
 const PropertySchema = new Schema({
   name: {
     type: String,
   },
+
+  ticker: {
+    type: String,
+    unique: true
+  },
+
+  totalPlotSize:{
+    type: Number,
+    required: true,
+  },
+
+  estateFeatures: {
+    type: [String]
+  },
+
+  propertyFeatures: {
+    type: [String]
+  },
+
   pricePerSm: {
     type: Number,
     default: 0,
   },
-  title: {
-    type: String,
+
+  plotLayout:[
+    {
+      width: Number,
+      length: Number,
+      price: Number,
+      color: String,
+      layoutTicker: String,
+      status: {
+        type: String,
+        Enum: ['sold', 'available', 'ongoingPayment'],
+        default: 'available'
+      }
+    }
+  ],
+
+  maximumPlotLayoutPrice: {
+    type: Number
   },
-  width: {
-    type: Number,
+
+  minimumPlotLayoutPrice: {
+    type: Number
   },
-  length: {
-    type: Number,
-  },
-  color:{
-    type:String,
-  },
+
+
   //  layoutImage:{
   //   type:String,
   //   required: true
@@ -30,7 +65,7 @@ const PropertySchema = new Schema({
   //   default: true
   // },
   category: {
-    type:Object,
+    type:String,
   },
   about: {
     type: String,
@@ -50,7 +85,7 @@ const PropertySchema = new Schema({
   },
   addedBy: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Admin",
     required: true,
     default: "62d77b4b251bc07f567efa10"
   },
@@ -88,9 +123,12 @@ const PropertySchema = new Schema({
     type: [Object],
     // select: false
   },
-  // reviews: {
-  //   type: [{ type: Schema.Types.ObjectId, ref: "Review" }]
-  // }
+  reviews:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review"
+    }
+  ],
 });
 
 const populateUser = function (next) {
@@ -100,9 +138,11 @@ const populateUser = function (next) {
   next();
 };
 
+
 PropertySchema.pre("find", populateUser)
   .pre("findOne", populateUser)
   .pre("findOneAndUpdate", populateUser);
+
 
 const Property = model("Property", PropertySchema);
 

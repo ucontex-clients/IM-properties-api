@@ -1,0 +1,34 @@
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    // cb(null, `${__dirname}/public`)
+    cb(null, path.join(__dirname, '..', 'public'));
+    // cb(null, process.env.CONTAINER_PUBLIC_DIR);
+  },
+
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png' && ext !== '.mp4') {
+      return cb({ message: 'Unsupported File format'}, false);
+  }
+  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'video/mp4') {
+    cb(null, true)
+  } 
+
+  else {
+    // Reject File
+    cb({ message: 'Unsupported File format'}, false)
+  }
+};
+
+exports.uploads = multer({
+  storage: storage,
+  fileFilter: fileFilter
+});

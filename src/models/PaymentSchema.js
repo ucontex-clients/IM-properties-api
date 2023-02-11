@@ -1,48 +1,68 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Property = require('./PropertySchema');
+const Transaction = require('./TransactionSchema');
 
 const paymentSchema = new Schema(
   {
+    Payer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+
     amount: {
       type: Number,
     },
+
     mode: {
       type: String,
-      enum: [ "easybuy", "outright"],
+      enum: [ "installment", "outright"],
       default: "outright"
     },
-    TransID: {
-      type: String,
-      default:"IM 0023"
-    },
-    // order: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Order",
-    // },
-    transactionBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+
     paid:{
       type:Number
     },
+
     balance:{
       type: Number,
     },
+
     duration:{
       type: String,
-      enum: ["3-months","6-months","12-months"],
-      default:"3-months"
+      enum: ["none","3-months","6-months","12-months"],
+      default:"none"
     },
-    paymentMethod:{
-      type: String,
-      enum: ["flutterwave","bankPayment"],
-      default:"flutterwave"
-    },
+
+    transactions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "transaction"
+      }
+    ],
+
     nextPayment:{
-      type: String,
-      default:"next month"
+      type: Date,
+      default:"Null"
     },
+
+    monthlyPayment:{
+      type: Number
+    },
+
+    plotLayout: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Property'
+      }
+    ],
+
+    status: {
+      type: String,
+      enum: ['ongoing', 'completed']
+    },
+
     property:{
       type: mongoose.Schema.Types.ObjectId,
       ref:"Property",
@@ -53,28 +73,29 @@ const paymentSchema = new Schema(
   }
 );
 
-paymentSchema.pre("validate", function (next) {
-  if (this.name) {
-    this.catSlug = slugify(this.name, {
-      lower: true,
-      strict: true
-    });
-  }
-
-  next();
-});
-
-const populateUser = function (next) {
-  this.populate("transactionBy", "_id lastName firstName phone email"),
-  // this.populate("order");
-  this.popualte("property")
-  next();
-};
-
-paymentSchema.pre("find", populateUser)
-  .pre("findOne", populateUser)
-  .pre("findOneAndUpdate", populateUser);
-
 const Payment = mongoose.model("Payment", paymentSchema);
 
 module.exports = Payment;
+
+
+// paymentSchema.pre("validate", function (next) {
+//   if (this.name) {
+//     this.catSlug = slugify(this.name, {
+//       lower: true,
+//       strict: true
+//     });
+//   }
+
+//   next();
+// });
+
+// const populateUser = function (next) {
+//   this.populate("transactionBy", "_id lastName firstName phone email"),
+//   // this.populate("order");
+//   this.popualte("property")
+//   next();
+// };
+
+// paymentSchema.pre("find", populateUser)
+//   .pre("findOne", populateUser)
+//   .pre("findOneAndUpdate", populateUser);
