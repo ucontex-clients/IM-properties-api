@@ -67,11 +67,15 @@ const registerControllers = async (req, res) => {
       console.log('Could not create User');
       return res.status(400).json({ status:'failed', message: 'Could not create User' });
     }
+    else{
+      console.log('========================================newUser');
+      console.log(newUser);
+      const token = jwt.sign({ _id: newUser._id, role: newUser.role }, TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+      return res.status(200).json({ status: 'success', id: newUser._id, token });
 
-    console.log('========================================newUser');
-    console.log(newUser);
-    return res.status(200).json({ status:'success', message: newUser });
-
+    }
     
   } catch (error) {
     res.status(500).json(error.message);
