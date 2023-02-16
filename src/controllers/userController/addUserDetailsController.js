@@ -28,7 +28,7 @@ const userProfile = async(req, res) => {
   data.kin = kinData;
 
   try {
-    const files = req.body.files;
+    const files = req.files;
     if(files && files.length < 1) {
       return res.status(401).json({
       error: { message: "At least one image must be uploaded" }}) 
@@ -63,12 +63,10 @@ const userProfile = async(req, res) => {
     if(!user){
       console.log("Failed to update user")
       return res.status(401).json({ error:{ message: "Failed to update user"}})
-    }
-    else{
-      console.log(user);
-      return res.status(200).json({ status: 'success', message: user, user });
-    }
+    };
 
+    console.log(user);
+    return res.status(200).json({ status:'success', message: user });
     
   } catch (error) {
     console.log(error.message);
