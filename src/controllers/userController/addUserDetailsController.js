@@ -28,15 +28,14 @@ const userProfile = async(req, res) => {
   data.kin = kinData;
 
   try {
-    const files = req.files;
+    const files = req.body.files;
+    console.log(files);
     if(files && files.length < 1) {
       return res.status(401).json({
       error: { message: "At least one image must be uploaded" }}) 
     }
 
     const imagesURLs = [];
-
-    console.log(files);
     
 
     const results = await Promise.all(files.map(async (file) => {
