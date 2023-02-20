@@ -3,10 +3,10 @@ const express = require('express');
 const cloudinary = require('../../config/cloudinary2');
 const fs = require('fs');
 
-const userProfile = async(req, res) => {
+const userProfile = async(req, res, next) => {
   const data = {
     firstname: req.body.firstname,
-    lastname: req.body.lasstname,
+    lastname: req.body.lastname,
     gender: req.body.gender,
     country: req.body.country,
     state: req.body.state,
@@ -28,7 +28,7 @@ const userProfile = async(req, res) => {
   data.kin = kinData;
 
   try {
-    const files = req.body.files;
+    const files = req.files;
     console.log(files);
     if(files && files.length < 1) {
       return res.status(401).json({
