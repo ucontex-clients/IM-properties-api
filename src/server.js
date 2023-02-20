@@ -25,7 +25,7 @@ app.use( cors(corsOptions));
 
 app.use(express.urlencoded({ limit: "1000000mb", extended: true }));
 app.use(express.json({ limit: "1000000mb", extended: true }));
-app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //MongoDB connection
 const conn = mongoose

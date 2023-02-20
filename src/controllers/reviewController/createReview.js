@@ -19,7 +19,7 @@ exports.createReview = async (req, res) => {
      });
     if(!newReview){
       console.log('No review');
-      return res.status(400).json("could not create revior");
+      return res.status(400).json("could not create review");
     }
 
     const r = newReview._id;
