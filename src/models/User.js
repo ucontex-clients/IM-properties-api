@@ -53,6 +53,9 @@ const UserSchema = new mongoose.Schema({
     lga:{
         type:String,      
     },
+    city:{
+        type:String,
+    },
     gender:{
         type:String,  
     },
