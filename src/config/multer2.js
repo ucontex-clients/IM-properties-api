@@ -18,7 +18,7 @@ const fileFilter = (req, file, cb) => {
   if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png' && ext !== '.mp4') {
       return cb({ message: 'Unsupported File format'}, false);
   }
-  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'video/mp4') {
+  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'video/mp4' || file.mimetype === 'image.jpg') {
     cb(null, true)
   } 
 
