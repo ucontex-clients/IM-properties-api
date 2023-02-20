@@ -11,13 +11,13 @@ const { uploads } = require('../../config/multer2');
 const { cloudinary } = require('../../config/cloudinaryConfig');
 const validateUserDetails = require('../../utils/vaildateUserDetails')
 const addUserDetails = require('../../controllers/userController/addUserDetailsController')
-const User = require('../../models/User')
+const User = require('../../models/User');
 const fs = require('fs');
 const { userProperty } = require('../../controllers/userController/userProperties.js');
 
 router.get('/all',verifyToken,verifyAdminToken, getAllUserController );
 
-router.patch('/addprofile', verifyToken, addUserDetails );
+router.patch('/addprofile', verifyToken, uploads.array('images'), addUserDetails );
 
 router.get('/single',verifyToken,verifyAdminAndUserToken, getSingleUserController );
 
