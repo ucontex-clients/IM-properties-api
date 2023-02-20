@@ -73,7 +73,7 @@ const registerControllers = async (req, res) => {
       const token = jwt.sign({ _id: newUser._id, role: newUser.role }, TOKEN_SECRET, {
         expiresIn: "30d",
       });
-      return res.status(200).json({ status: 'success', id: newUser._id, token });
+      return res.status(200).json({ status: 'success', id: newUser._id, token, username: newUser.username });
 
     }
     
@@ -98,7 +98,7 @@ const loginController = async (req, res) => {
       });
       return res
         .status(200)
-        .json({ message: "Login Successful", id: user._id, token });
+        .json({ message: "Login Successful", id: user._id, token, username: user.username });
     } else {
       res.status(400).json({ message: "invalid email and password" });
     }
