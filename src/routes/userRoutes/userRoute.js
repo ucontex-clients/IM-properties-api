@@ -11,6 +11,8 @@ const { uploads } = require('../../config/multer2');
 const { cloudinary } = require('../../config/cloudinaryConfig');
 const validateUserDetails = require('../../utils/vaildateUserDetails')
 const addUserDetails = require('../../controllers/userController/addUserDetailsController')
+const updateUserEmail = require('../../controllers/userController/updateUserEmailController')
+const updateUserPassword = require('../../controllers/userController/updateUserPasswordController')
 const User = require('../../models/User');
 const fs = require('fs');
 const { userProperty } = require('../../controllers/userController/userProperties.js');
@@ -18,6 +20,10 @@ const { userProperty } = require('../../controllers/userController/userPropertie
 router.get('/all',verifyToken,verifyAdminToken, getAllUserController );
 
 router.patch('/addprofile', verifyToken, uploads.array('images'), addUserDetails );
+
+router.patch('/changemail', verifyToken, updateUserEmail);
+
+router.patch('/changepassword', verifyToken, updateUserPassword);
 
 router.get('/single',verifyToken,verifyAdminAndUserToken, getSingleUserController );
 
